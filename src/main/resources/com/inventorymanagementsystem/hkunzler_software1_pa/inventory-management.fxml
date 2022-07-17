@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="503.0" prefWidth="1302.0" xmlns="http://javafx.com/javafx/16"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.inventorymanagementsystem.hkunzler_software1_pa.InventoryManagementController">
+    <Label fx:id="inventoryManagementLabel" layoutX="79.0" layoutY="73.0" text="Inventory Management System"
+           AnchorPane.bottomAnchor="442.0" AnchorPane.leftAnchor="40.0" AnchorPane.topAnchor="75.0">
+        <font>
+            <Font name="Arial Bold" size="18.0"/>
+        </font>
+    </Label>
+    <fx:include fx:id="partsTable" source="inventory-table.fxml" AnchorPane.rightAnchor="50.0"
+                AnchorPane.topAnchor="150.0"/>
+    <fx:include fx:id="productsTable" source="inventory-table.fxml" AnchorPane.leftAnchor="50.0"
+                AnchorPane.topAnchor="150.0"/>
+    <Button layoutX="1123.0" layoutY="435.0" mnemonicParsing="false" onAction="#inventoryManagementExitButton"
+            prefHeight="28.0" prefWidth="45.0" text="Exit" AnchorPane.bottomAnchor="75.0" AnchorPane.rightAnchor="117.0"
+            AnchorPane.topAnchor="435.0">
+        <font>
+            <Font name="Arial" size="12.0"/>
+        </font>
+    </Button>
+</AnchorPane>
