@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="710.0" prefWidth="692.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.inventorymanagementsystem.hkunzler_software1_pa.partForm">
+   <Label layoutX="25.0" layoutY="40.0" text="Add Part" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="45.0">
+      <font>
+         <Font name="Arial Bold" size="14.0"/>
+      </font>
+   </Label>
+   <RadioButton fx:id="inHouseParts" layoutX="178.0" layoutY="45.0" mnemonicParsing="false" selected="true"
+                text="In-House"/>
+   <RadioButton fx:id="outsourceParts" layoutX="332.0" layoutY="45.0" mnemonicParsing="false" text="Outsourced"/>
+   <Label layoutX="73.0" layoutY="117.0" text="ID" AnchorPane.bottomAnchor="575.0" AnchorPane.leftAnchor="75.0"
+          AnchorPane.topAnchor="115.0"/>
+   <TextField fx:id="partID" disable="true" layoutX="192.0" layoutY="157.0" promptText="Auto Gen - Disabled"
+              AnchorPane.leftAnchor="190.0" AnchorPane.topAnchor="115.0"/>
+   <Label layoutX="78.0" layoutY="161.0" text="Name" AnchorPane.leftAnchor="75.0" AnchorPane.topAnchor="160.0">
+      <font>
+         <Font name="Arial" size="13.0"/>
+      </font>
+   </Label>
+   <TextField fx:id="partName" layoutX="187.0" layoutY="113.0" AnchorPane.bottomAnchor="524.0"
+              AnchorPane.leftAnchor="190.0" AnchorPane.topAnchor="160.0"/>
+   <Label layoutX="75.0" layoutY="207.0" text="Inv" AnchorPane.leftAnchor="75.0" AnchorPane.topAnchor="205.0">
+      <font>
+         <Font name="Arial" size="13.0"/>
+      </font>
+   </Label>
+   <TextField fx:id="invPart" layoutX="190.0" layoutY="207.0" AnchorPane.leftAnchor="190.0"
+              AnchorPane.topAnchor="205.0"/>
+   <Label layoutX="78.0" layoutY="248.0" text="Price / Cost" AnchorPane.leftAnchor="75.0" AnchorPane.topAnchor="250.0">
+      <font>
+         <Font name="Arial" size="13.0"/>
+      </font>
+   </Label>
+   <TextField fx:id="pricePart" layoutX="193.0" layoutY="248.0" AnchorPane.leftAnchor="190.0"
+              AnchorPane.topAnchor="250.0"/>
+   <Label layoutX="75.0" layoutY="293.0" text="Max" AnchorPane.leftAnchor="75.0" AnchorPane.topAnchor="295.0">
+      <font>
+         <Font name="Arial" size="13.0"/>
+      </font>
+   </Label>
+   <TextField fx:id="maxPart" layoutX="190.0" layoutY="293.0" AnchorPane.leftAnchor="190.0"
+              AnchorPane.topAnchor="295.0"/>
+   <Label layoutX="376.0" layoutY="298.0" text="Min" AnchorPane.leftAnchor="375.0" AnchorPane.topAnchor="295.0">
+      <font>
+         <Font name="Arial" size="13.0"/>
+      </font>
+   </Label>
+   <TextField fx:id="minPart" layoutX="420.0" layoutY="295.0" AnchorPane.leftAnchor="420.0"
+              AnchorPane.topAnchor="295.0"/>
+   <Label layoutX="76.0" layoutY="355.0" text="Machine ID" AnchorPane.leftAnchor="75.0" AnchorPane.topAnchor="340.0">
+      <font>
+         <Font name="Arial" size="13.0"/>
+      </font>
+   </Label>
+   <TextField fx:id="machineID" layoutX="121.0" layoutY="355.0" AnchorPane.leftAnchor="190.0"
+              AnchorPane.topAnchor="340.0"/>
+   <Button fx:id="savePart" layoutX="358.0" layoutY="410.0" mnemonicParsing="false" onAction="#onSavePart" text="Save"
+           AnchorPane.leftAnchor="360.0" AnchorPane.topAnchor="410.0">
+      <font>
+         <Font name="Arial" size="12.0"/>
+      </font>
+   </Button>
+   <Button fx:id="cancelPart" layoutX="420.0" layoutY="410.0" mnemonicParsing="false" onAction="#onCancelPart"
+           text="Cancel" AnchorPane.leftAnchor="425.0" AnchorPane.topAnchor="410.0">
+      <font>
+         <Font name="Arial" size="12.0"/>
+      </font>
+   </Button>
+
+</AnchorPane>

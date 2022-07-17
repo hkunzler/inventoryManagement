@@ -12,7 +12,7 @@ public class InventoryManagementApplication extends Application {
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(InventoryManagementApplication.class.getResource("inventory-management.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
-        stage.setTitle("Inventory Management System!");
+        stage.setTitle("Inventory Management System");
         stage.setScene(scene);
         stage.show();
     }
