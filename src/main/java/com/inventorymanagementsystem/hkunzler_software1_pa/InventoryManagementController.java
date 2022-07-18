@@ -14,13 +14,12 @@ public class InventoryManagementController {
 
     @FXML
     public void initialize() {
+        partsTableController.setFormType("part-form.fxml");
+
         productsTableController.setTableTitle("Products");
         productsTableController.setItemID("Product ID");
         productsTableController.setItemName("Product Name");
-
-        partsTableController.setFormType("part-form.fxml");
-        partsTableController.setAddPartController(this) ;
-
+        productsTableController.setFormType("product-form.fxml");
     }
 
 

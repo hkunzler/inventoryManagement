@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+
+<?import javafx.scene.text.Font?>
+<AnchorPane prefHeight="643.0" prefWidth="903.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.inventorymanagementsystem.hkunzler_software1_pa.ProductFormController">
+    <Label fx:id="productFormTitle" layoutX="25.0" layoutY="40.0" text="Add Part" AnchorPane.leftAnchor="50.0"
+           AnchorPane.topAnchor="45.0">
+        <font>
+            <Font name="Arial Bold" size="14.0"/>
+        </font>
+    </Label>
+    <fx:include source="part-form.fxml" fx:id="productForm"/>
+    <fx:include source="inventory-table.fxml" fx:id="availableParts"/>
+    <fx:include source="inventory-table.fxml" fx:id="selectedParts"/>
+</AnchorPane>

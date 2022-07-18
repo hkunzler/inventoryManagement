@@ -22,8 +22,7 @@ public class InventoryTableController {
     @FXML
     private Button onModify;
     private String formType;
-
-//    final ContextMenu contextMenu = new ContextMenu(item1, item2);
+    private ModuleLayer.Controller formController;
 
     public void setTableTitle(String tableTitle) {
         this.tableTitle.setText(tableTitle);
@@ -36,27 +35,32 @@ public class InventoryTableController {
     public void setItemName(String itemName) {
         this.itemName.setText(itemName);
     }
-
-    public void setAddPartController(InventoryManagementController controller) {
-    }
     public void setFormType(String formType) {
-         this.formType = formType;
-        System.out.println(formType);
+        this.formType = formType;
     }
+
     public void onOpenForm(ActionEvent actionEvent) {
+        String partForm = ((Button) actionEvent.getSource()).getText().concat(" Part");
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(formType));
             Parent root = fxmlLoader.load();
             Stage stage = new Stage();
+            if (formType.contains("part")) {
+                PartFormController partController = fxmlLoader.getController();
+                partController.setPartFormTitle(partForm);
+            } else {
+                ProductFormController productController = fxmlLoader.getController();
+                productController.setProductFormTitle(partForm);
+            }
+            stage.setTitle(partForm);
             stage.setScene(new Scene(root));
             stage.show();
-        } catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-    public void onModify(ActionEvent actionEvent) {
     }
 
     public void onDelete(ActionEvent actionEvent) {
     }
+
 }
