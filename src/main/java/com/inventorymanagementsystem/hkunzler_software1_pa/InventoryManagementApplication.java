@@ -8,6 +8,10 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 public class InventoryManagementApplication extends Application {
+    public static void main(String[] args) {
+        launch();
+    }
+
     @Override
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(InventoryManagementApplication.class.getResource("inventory-management.fxml"));
@@ -15,9 +19,5 @@ public class InventoryManagementApplication extends Application {
         stage.setTitle("Inventory Management System");
         stage.setScene(scene);
         stage.show();
-    }
-
-    public static void main(String[] args) {
-        launch();
     }
 }

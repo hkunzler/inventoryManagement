@@ -35,24 +35,25 @@ public class InventoryTableController {
     public void setItemName(String itemName) {
         this.itemName.setText(itemName);
     }
+
     public void setFormType(String formType) {
         this.formType = formType;
     }
 
     public void onOpenForm(ActionEvent actionEvent) {
-        String partForm = ((Button) actionEvent.getSource()).getText().concat(" Part");
+        String form = ((Button) actionEvent.getSource()).getText();
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(formType));
             Parent root = fxmlLoader.load();
             Stage stage = new Stage();
             if (formType.contains("part")) {
                 PartFormController partController = fxmlLoader.getController();
-                partController.setPartFormTitle(partForm);
+                partController.setPartFormTitle(form.concat(" Part"));
             } else {
                 ProductFormController productController = fxmlLoader.getController();
-                productController.setProductFormTitle(partForm);
+                productController.setProductFormTitle(form.concat(" Product"));
             }
-            stage.setTitle(partForm);
+            stage.setTitle(form);
             stage.setScene(new Scene(root));
             stage.show();
         } catch (Exception e) {

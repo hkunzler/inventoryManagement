@@ -6,6 +6,7 @@ import javafx.scene.control.Label;
 public class ProductFormController {
     @FXML
     public Label productFormTitle;
+
     public void setProductFormTitle(String data) {
         productFormTitle.setText(data);
     }

@@ -1,16 +1,19 @@
 package com.inventorymanagementsystem.hkunzler_software1_pa;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 
 public class InventoryManagementController {
     @FXML
     private Label inventoryManagementLabel;
     @FXML
-    private InventoryTableController partsTableController ;
+    private InventoryTableController partsTableController;
     @FXML
-    private InventoryTableController productsTableController ;
+    private InventoryTableController productsTableController;
+    private Button close;
 
     @FXML
     public void initialize() {
@@ -24,5 +27,6 @@ public class InventoryManagementController {
 
 
     public void inventoryManagementExitButton(ActionEvent actionEvent) {
+        Platform.exit();
     }
 }
