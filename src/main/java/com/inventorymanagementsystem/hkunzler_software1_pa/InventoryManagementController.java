@@ -13,7 +13,6 @@ public class InventoryManagementController {
     private InventoryTableController partsTableController;
     @FXML
     private InventoryTableController productsTableController;
-    private Button close;
 
     @FXML
     public void initialize() {

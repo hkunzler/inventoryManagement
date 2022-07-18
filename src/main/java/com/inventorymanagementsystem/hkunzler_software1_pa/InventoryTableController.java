@@ -14,6 +14,11 @@ public class InventoryTableController {
     @FXML
     private Label tableTitle;
     @FXML
+    public TableColumn<String, Integer> itemStock;
+    @FXML
+    public TableColumn<String, Integer> itemPrice;
+
+    @FXML
     private TableColumn<String, Integer> itemID;
     @FXML
     private TableColumn<String, Integer> itemName;
