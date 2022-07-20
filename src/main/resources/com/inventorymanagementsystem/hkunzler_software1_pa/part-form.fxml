@@ -1,27 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.RadioButton?>
-<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
-<?import javafx.scene.control.TextField?>
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1" prefHeight="710.0" prefWidth="692.0" xmlns="http://javafx.com/javafx/18"
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" prefHeight="710.0" prefWidth="692.0"
+            xmlns="http://javafx.com/javafx/18"
             fx:controller="com.inventorymanagementsystem.hkunzler_software1_pa.PartFormController">
-    <RadioButton fx:id="inHouse" onAction="#onInHouseSelect" layoutX="178.0" layoutY="45.0" mnemonicParsing="false" selected="true"
-                 text="In-House"/>
-    <RadioButton fx:id="outsourced" onAction="#onOutsourceSelect" layoutX="332.0" layoutY="45.0" mnemonicParsing="false" text="Outsourced"/>
     <Label fx:id="partFormTitle" layoutX="25.0" layoutY="40.0" text="Add Part" AnchorPane.leftAnchor="50.0"
            AnchorPane.topAnchor="45.0">
         <font>
             <Font name="Arial Bold" size="14.0"/>
         </font>
     </Label>
-    <fx:include source="inventory-form.fxml" fx:id="partForm"/>
-    <Label layoutX="76.0" layoutY="355.0" text="Machine ID" AnchorPane.leftAnchor="75.0" AnchorPane.topAnchor="340.0">
+    <fx:include fx:id="partForm" source="inventory-form.fxml"/>
+    <Label fx:id="sourceLabel" layoutX="76.0" layoutY="355.0" text="Machine ID" AnchorPane.leftAnchor="75.0"
+           AnchorPane.topAnchor="340.0">
         <font>
             <Font name="Arial" size="13.0"/>
         </font>
     </Label>
-    <TextField fx:id="machineID" layoutX="121.0" layoutY="355.0" AnchorPane.leftAnchor="190.0"
+
+    <TextField fx:id="partType" layoutX="121.0" layoutY="355.0" AnchorPane.leftAnchor="190.0"
                AnchorPane.topAnchor="340.0"/>
+    <RadioButton fx:id="inHouse" layoutX="178.0" layoutY="45.0" mnemonicParsing="false" onAction="#onInHouseSelect"
+                 selected="true" text="In-House"/>
+    <RadioButton fx:id="outsourced" layoutX="332.0" layoutY="45.0" mnemonicParsing="false" onAction="#onOutsourceSelect"
+                 text="Outsourced"/>
 </AnchorPane>

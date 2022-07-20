@@ -1,6 +1,7 @@
 package com.inventorymanagementsystem.hkunzler_software1_pa;
 
-import com.inventorymanagementsystem.hkunzler_software1_pa.models.Part;
+import com.inventorymanagementsystem.hkunzler_software1_pa.models.EachPart;
+import com.inventorymanagementsystem.hkunzler_software1_pa.models.PartInventory;
 import com.inventorymanagementsystem.hkunzler_software1_pa.utils.uniqueIDGenerator;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -8,39 +9,48 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import javafx.util.Pair;
 
 import java.net.URL;
 import java.util.ResourceBundle;
 
 public class InventoryFormController implements Initializable {
     @FXML
+    public TextField name;
+    @FXML
+    public TextField price;
+    @FXML
+    public TextField stock;
+    @FXML
+    public TextField min;
+    @FXML
+    public TextField max;
+    PartInventory partInventory;
+    EachPart eachPart;
+    Pair<Boolean, String> inHouseOrOutsourced;
+    @FXML
     private TextField id;
-    @FXML
-    private TextField name;
-    @FXML
-    private TextField price;
-    @FXML
-    private TextField stock;
-    @FXML
-    private TextField min;
-    @FXML
-    private TextField max;
 
-//    @FXML
-//    private Boolean outsourced;
-//    public void setOutsourced(String outsourced) {
-//        this.outsourced.
-//    }
+    public void setModel(PartInventory partInventory) {
+        this.partInventory = partInventory;
+    }
+
+    public void setInHouseOrOutsourced(Pair<Boolean, String> inHouseOrOutsourced) {
+        this.inHouseOrOutsourced = inHouseOrOutsourced;
+    }
+
     public void onSavePart(ActionEvent actionEvent) {
-        String strID = Integer.toString(uniqueIDGenerator.newId());
-        id.setText(strID);
-
-        System.out.print(id.getText());
-
+        int id = uniqueIDGenerator.newId();
+        partInventory.addPart(new EachPart(id,
+                name.getText(),
+                Double.parseDouble(price.getText()),
+                Integer.parseInt(stock.getText()),
+                Integer.parseInt(min.getText()),
+                Integer.parseInt(max.getText()), inHouseOrOutsourced));
     }
 
     public void onCancelPart(ActionEvent actionEvent) {
-        ((Stage)(((Button)actionEvent.getSource()).getScene().getWindow())).close();
+        ((Stage) (((Button) actionEvent.getSource()).getScene().getWindow())).close();
     }
 
     @Override

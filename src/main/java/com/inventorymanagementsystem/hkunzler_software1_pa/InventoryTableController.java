@@ -12,12 +12,11 @@ import javafx.stage.Stage;
 
 public class InventoryTableController {
     @FXML
-    private Label tableTitle;
-    @FXML
     public TableColumn<String, Integer> itemStock;
     @FXML
     public TableColumn<String, Integer> itemPrice;
-
+    @FXML
+    private Label tableTitle;
     @FXML
     private TableColumn<String, Integer> itemID;
     @FXML
@@ -27,7 +26,6 @@ public class InventoryTableController {
     @FXML
     private Button onModify;
     private String formType;
-    private ModuleLayer.Controller formController;
 
     public void setTableTitle(String tableTitle) {
         this.tableTitle.setText(tableTitle);
@@ -48,19 +46,12 @@ public class InventoryTableController {
     public void onOpenForm(ActionEvent actionEvent) {
         String form = ((Button) actionEvent.getSource()).getText();
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(formType));
-            Parent root = fxmlLoader.load();
             Stage stage = new Stage();
-            if (formType.contains("part")) {
-                PartFormController partController = fxmlLoader.getController();
-                partController.setPartFormTitle(form.concat(" Part"));
-            } else {
-                ProductFormController productController = fxmlLoader.getController();
-                productController.setProductFormTitle(form.concat(" Product"));
-            }
-            stage.setTitle(form);
+            FXMLLoader fxmlLoader = new FXMLLoader(InventoryManagementApplication.class.getResource(formType));
+            Parent root = (fxmlLoader.load());
             stage.setScene(new Scene(root));
             stage.show();
+            stage.setTitle(form);
         } catch (Exception e) {
             e.printStackTrace();
         }

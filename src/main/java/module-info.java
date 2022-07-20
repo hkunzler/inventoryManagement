@@ -5,5 +5,6 @@ module com.inventorymanagementsystem.hkunzler_software1_pa {
 
     opens com.inventorymanagementsystem.hkunzler_software1_pa to javafx.fxml, javafx.controls;
     exports com.inventorymanagementsystem.hkunzler_software1_pa;
-
+    exports com.inventorymanagementsystem.hkunzler_software1_pa.models;
+    exports com.inventorymanagementsystem.hkunzler_software1_pa.utils;
 }

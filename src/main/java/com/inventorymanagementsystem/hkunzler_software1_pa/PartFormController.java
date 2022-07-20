@@ -1,58 +1,59 @@
 package com.inventorymanagementsystem.hkunzler_software1_pa;
-import com.inventorymanagementsystem.hkunzler_software1_pa.models.Part;
 
-import javafx.event.ActionEvent;
+import com.inventorymanagementsystem.hkunzler_software1_pa.models.PartInventory;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
-import javafx.scene.control.ToggleGroup;
-import javafx.scene.input.MouseEvent;
+import javafx.util.Pair;
 
-import java.net.URL;
-import java.util.ResourceBundle;
-
-public class PartFormController implements Initializable {
+public class PartFormController {
     @FXML
-    private TextField id;
+    public RadioButton inHouse;
     @FXML
-    private TextField name;
+    public RadioButton outsourced;
     @FXML
-    private TextField price;
-    @FXML
-    private TextField stock;
-    @FXML
-    private TextField min;
-    @FXML
-    private TextField max;
-
-    @FXML
-    private RadioButton inHouse;
-    @FXML
-    private RadioButton outsourced;
-
+    public TextField partType;
     @FXML
     public Label partFormTitle;
+    @FXML
+    public Label sourceLabel;
+    PartInventory partInventory = new PartInventory();
+    Pair<Boolean, String> inHouseOrOutsourced;
+    @FXML
+    private InventoryFormController partFormController;
 
-    public void setPartFormTitle(String data) {
-        partFormTitle.setText(data);
+    public void setModel(PartInventory partInventory) {
+        this.partInventory = partInventory;
+        partFormController.setModel(partInventory);
     }
 
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
+    public void initialize() {
+        inHouse.setSelected(true);
+        outsourced.setSelected(false);
+        sourceLabel.setText("Machine ID");
+        setModel(partInventory);
+        setInHouseOrOutsourced(new Pair<>(inHouse.isSelected(), partType.getText()));
+    }
 
+    public void setInHouseOrOutsourced(Pair<Boolean, String> inHouseOrOutsourced) {
+        this.inHouseOrOutsourced = inHouseOrOutsourced;
+        partFormController.setInHouseOrOutsourced(inHouseOrOutsourced);
     }
 
     @FXML
     public void onInHouseSelect() {
         inHouse.setSelected(true);
         outsourced.setSelected(false);
+        sourceLabel.setText("Machine ID");
+        setInHouseOrOutsourced(new Pair<>(inHouse.isSelected(), partType.getText()));
     }
 
     @FXML
     public void onOutsourceSelect() {
         inHouse.setSelected(false);
         outsourced.setSelected(true);
+        sourceLabel.setText("Company ID");
+        setInHouseOrOutsourced(new Pair<>(inHouse.isSelected(), partType.getText()));
     }
 }

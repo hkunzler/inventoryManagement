@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.*?>
+<?import javafx.scene.control.cell.PropertyValueFactory?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
-<?import javafx.scene.control.cell.PropertyValueFactory?>
 <AnchorPane xmlns:fx="http://javafx.com/fxml/1" prefHeight="254.0" prefWidth="570.0" xmlns="http://javafx.com/javafx/16"
             fx:controller="com.inventorymanagementsystem.hkunzler_software1_pa.InventoryTableController">
     <AnchorPane style="-fx-border-color: black; -fx-border-radius: 8;">
