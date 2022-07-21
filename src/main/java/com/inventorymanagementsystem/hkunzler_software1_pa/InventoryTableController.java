@@ -78,6 +78,8 @@ public class InventoryTableController implements Initializable {
         }
     }
 
-    public void onDelete(ActionEvent actionEvent) {
+    public void onDelete() {
+        Part deleteItem = partTable.getSelectionModel().getSelectedItem();
+        PartInventory.deletePart(deleteItem, PartInventory.getParts());
     }
 }

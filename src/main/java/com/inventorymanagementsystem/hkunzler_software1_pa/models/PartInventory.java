@@ -10,6 +10,10 @@ public class PartInventory {
         parts.add(part);
     }
 
+    public static void deletePart(Part part, ObservableList<Part> allParts){
+        allParts.remove(part);
+    }
+
     public static ObservableList<Part> getParts() {
         return parts;
     }
