@@ -12,7 +12,8 @@
                 <Font name="Arial Bold" size="14.0"/>
             </font>
         </Label>
-        <TableView prefHeight="158.0" prefWidth="522.0" AnchorPane.bottomAnchor="45.0" AnchorPane.leftAnchor="25.0"
+        <TableView fx:id="partTable" prefHeight="158.0" prefWidth="522.0" AnchorPane.bottomAnchor="45.0"
+                   AnchorPane.leftAnchor="25.0"
                    AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="45.0">
             <columns>
                 <TableColumn fx:id="itemID" prefWidth="130.0" text="Part ID">

@@ -31,17 +31,13 @@ public class InventoryFormController implements Initializable {
     @FXML
     private TextField id;
 
-    public void setModel(PartInventory partInventory) {
-        this.partInventory = partInventory;
-    }
-
     public void setInHouseOrOutsourced(Pair<Boolean, String> inHouseOrOutsourced) {
         this.inHouseOrOutsourced = inHouseOrOutsourced;
     }
 
     public void onSavePart(ActionEvent actionEvent) {
         int id = uniqueIDGenerator.newId();
-        partInventory.addPart(new EachPart(id,
+        PartInventory.addPart(new EachPart(id,
                 name.getText(),
                 Double.parseDouble(price.getText()),
                 Integer.parseInt(stock.getText()),

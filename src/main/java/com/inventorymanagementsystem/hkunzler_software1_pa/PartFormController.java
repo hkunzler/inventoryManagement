@@ -1,6 +1,5 @@
 package com.inventorymanagementsystem.hkunzler_software1_pa;
 
-import com.inventorymanagementsystem.hkunzler_software1_pa.models.PartInventory;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
@@ -18,21 +17,14 @@ public class PartFormController {
     public Label partFormTitle;
     @FXML
     public Label sourceLabel;
-    PartInventory partInventory = new PartInventory();
     Pair<Boolean, String> inHouseOrOutsourced;
     @FXML
     private InventoryFormController partFormController;
-
-    public void setModel(PartInventory partInventory) {
-        this.partInventory = partInventory;
-        partFormController.setModel(partInventory);
-    }
 
     public void initialize() {
         inHouse.setSelected(true);
         outsourced.setSelected(false);
         sourceLabel.setText("Machine ID");
-        setModel(partInventory);
         setInHouseOrOutsourced(new Pair<>(inHouse.isSelected(), partType.getText()));
     }
 
