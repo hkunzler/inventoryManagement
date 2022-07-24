@@ -79,6 +79,23 @@ public class InventoryFormController implements Initializable {
                         Integer.parseInt(min.getText()),
                         Integer.parseInt(max.getText()), inHouseOrOutsourced));
             }
+        } else if (Objects.equals(tableTitle, "Products")) {
+            if ((Objects.equals(partInventoryForm, "Modify"))) {
+                PartInventory.getProducts().set(PartInventory.getProducts().indexOf(modify),
+                        new EachPart(Integer.parseInt(id.getText()), name.getText(),
+                                Double.parseDouble(price.getText()),
+                                Integer.parseInt(stock.getText()),
+                                Integer.parseInt(min.getText()),
+                                Integer.parseInt(max.getText()), inHouseOrOutsourced));
+                PartInventory.modifiedParts.clear();
+            } else if (Objects.equals(partInventoryForm, "Add")) {
+                PartInventory.addProduct(new EachPart(newId,
+                        name.getText(),
+                        Double.parseDouble(price.getText()),
+                        Integer.parseInt(stock.getText()),
+                        Integer.parseInt(min.getText()),
+                        Integer.parseInt(max.getText()), inHouseOrOutsourced));
+            }
         }
         onCancelPart(actionEvent);
     }

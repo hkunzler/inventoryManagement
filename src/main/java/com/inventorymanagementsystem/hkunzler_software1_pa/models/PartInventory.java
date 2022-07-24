@@ -6,8 +6,8 @@ import javafx.collections.ObservableList;
 public class PartInventory {
     public static final ObservableList<Part> parts = FXCollections.observableArrayList();
     public static final ObservableList<Part> modifiedParts = FXCollections.observableArrayList();
-
     public static final ObservableList<Part> addedProducts = FXCollections.observableArrayList();
+    public static final ObservableList<Part> products = FXCollections.observableArrayList();
 
     public static void addPart(Part part) {
         parts.add(part);
@@ -39,5 +39,16 @@ public class PartInventory {
 
     public static void deleteAddedProduct(Part part, ObservableList<Part> addedProducts) {
         addedProducts.remove(part);
+    }
+    public static void addProduct(Part part) {
+        products.add(part);
+    }
+
+    public static void deleteProduct(Part part, ObservableList<Part> products) {
+        products.remove(part);
+    }
+
+    public static ObservableList<Part> getProducts() {
+        return products;
     }
 }

@@ -45,6 +45,9 @@ public class InventoryTableController implements Initializable {
             if (partTable != null && Objects.equals(tableTitle.getText(), "Parts")) {
                 partTable.setItems(PartInventory.getParts());
             }
+            if (partTable != null && Objects.equals(tableTitle.getText(), "Products")) {
+                partTable.setItems(PartInventory.getProducts());
+            }
         });
     }
 
@@ -77,6 +80,9 @@ public class InventoryTableController implements Initializable {
 
                 controller.addedPartsController.addProductPartButton.setText("Remove Associate Part");
                 controller.addedPartsController.partTable.setItems(PartInventory.getAddedProducts());
+
+                controller.productFormController.setAddEditItem(form);
+                controller.productFormController.setTableTitle(tableTitle);
 
             } else {
                 PartFormController controller = fxmlLoader.getController();
