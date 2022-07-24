@@ -20,7 +20,7 @@
         </font>
     </TextField>
     <fx:include source="inventory-form.fxml" fx:id="productForm"/>
-    <fx:include fx:id="availableProducts" prefHeight="250.0" source="table-view.fxml" AnchorPane.rightAnchor="45.0"
+    <fx:include fx:id="partsTable" prefHeight="250.0" source="table-view.fxml" AnchorPane.rightAnchor="45.0"
                 AnchorPane.topAnchor="45.0"/>
     <fx:include fx:id="selectedProducts" prefHeight="250.0" source="table-view.fxml" AnchorPane.bottomAnchor="100.0"
                 AnchorPane.rightAnchor="45.0"/>
