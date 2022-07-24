@@ -13,7 +13,7 @@ import java.util.ResourceBundle;
 
 public class TableViewController implements Initializable {
     @FXML
-    private TableView<Part> partTable;
+    public TableView<Part> partTable;
     @FXML
     private TableColumn<Part, Integer> itemStock;
     @FXML
@@ -25,8 +25,5 @@ public class TableViewController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-                partTable.setItems(PartInventory.getParts());
-        Platform.runLater(() -> {
-        });
     }
 }

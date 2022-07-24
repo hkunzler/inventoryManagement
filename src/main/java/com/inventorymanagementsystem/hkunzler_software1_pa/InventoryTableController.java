@@ -75,6 +75,7 @@ public class InventoryTableController implements Initializable {
             if (Objects.equals(tableTitle.getText(), "Products")) {
                 ProductFormController controller = fxmlLoader.getController();
                 controller.setHeader(form);
+                controller.partsTableController.partTable.setItems(PartInventory.getParts());
             } else {
                 PartFormController controller = fxmlLoader.getController();
                 controller.setHeader(form);
