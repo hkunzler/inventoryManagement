@@ -1,8 +1,8 @@
 package com.inventorymanagementsystem.hkunzler_software1_pa;
 
-import com.inventorymanagementsystem.hkunzler_software1_pa.models.EachPart;
 import com.inventorymanagementsystem.hkunzler_software1_pa.models.Part;
 import com.inventorymanagementsystem.hkunzler_software1_pa.models.PartInventory;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -14,7 +14,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.stage.Stage;
-import javafx.util.Pair;
 
 import java.net.URL;
 import java.util.Objects;
@@ -42,9 +41,11 @@ public class InventoryTableController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        if (partTable != null) {
-            partTable.setItems(PartInventory.getParts());
-        }
+        Platform.runLater(() -> {
+            if (partTable != null && Objects.equals(tableTitle.getText(), "Parts")) {
+                partTable.setItems(PartInventory.getParts());
+            }
+        });
     }
 
     public void setTableTitle(String tableTitle) {
@@ -75,9 +76,10 @@ public class InventoryTableController implements Initializable {
             } else {
                 PartFormController controller = fxmlLoader.getController();
                 controller.setHeader(form);
-                 if(Objects.equals(form, "Modify")) onModify();
+                if (Objects.equals(form, "Modify")) onModify();
 
                 controller.partFormController.setAddEditItem(form);
+                controller.partFormController.setTableTitle(tableTitle);
             }
             stage.setScene(new Scene(root));
             stage.show();
@@ -86,10 +88,12 @@ public class InventoryTableController implements Initializable {
             e.printStackTrace();
         }
     }
+
     public void onModify() {
         Part modifyItem = partTable.getSelectionModel().getSelectedItem();
         PartInventory.addModifiedPart(modifyItem, PartInventory.getModifiedParts());
     }
+
     public void onDelete() {
         Part deleteItem = partTable.getSelectionModel().getSelectedItem();
         PartInventory.deletePart(deleteItem, PartInventory.getParts());

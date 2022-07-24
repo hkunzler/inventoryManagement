@@ -9,6 +9,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import javafx.util.Pair;
@@ -37,9 +38,12 @@ public class InventoryFormController implements Initializable {
     private String addEditItem;
     private Part modify;
     private String partInventoryForm;
-    public void setAddEditItem( String addEditItem){
+    private String tableTitle;
+
+    public void setAddEditItem(String addEditItem) {
         this.addEditItem = addEditItem;
     }
+
     public void setInHouseOrOutsourced(Pair<Boolean, String> inHouseOrOutsourced) {
         this.inHouseOrOutsourced = inHouseOrOutsourced;
     }
@@ -48,27 +52,33 @@ public class InventoryFormController implements Initializable {
         ((Stage) (((Button) actionEvent.getSource()).getScene().getWindow())).close();
     }
 
-        private void modifiedPart(Part modify){
+    private void modifiedPart(Part modify) {
         this.modify = modify;
+    }
+
+    public void setTableTitle(Label tableTitle) {
+        this.tableTitle = tableTitle.getText();
     }
 
     public void onSavePart(ActionEvent actionEvent) {
         int newId = uniqueIDGenerator.newId();
-        if((Objects.equals(partInventoryForm, "Modify"))) {
-            PartInventory.getParts().set(PartInventory.getParts().indexOf(modify),
-                   new EachPart (Integer.parseInt(id.getText()), name.getText(),
-                            Double.parseDouble(price.getText()),
-                            Integer.parseInt(stock.getText()),
-                            Integer.parseInt(min.getText()),
-                            Integer.parseInt(max.getText()), inHouseOrOutsourced));
-            PartInventory.modifiedParts.clear();
-        } else if(Objects.equals(partInventoryForm, "Add")) {
-            PartInventory.addPart(new EachPart(newId,
-                    name.getText(),
-                    Double.parseDouble(price.getText()),
-                    Integer.parseInt(stock.getText()),
-                    Integer.parseInt(min.getText()),
-                    Integer.parseInt(max.getText()), inHouseOrOutsourced));
+        if (Objects.equals(tableTitle, "Parts")) {
+            if ((Objects.equals(partInventoryForm, "Modify"))) {
+                PartInventory.getParts().set(PartInventory.getParts().indexOf(modify),
+                        new EachPart(Integer.parseInt(id.getText()), name.getText(),
+                                Double.parseDouble(price.getText()),
+                                Integer.parseInt(stock.getText()),
+                                Integer.parseInt(min.getText()),
+                                Integer.parseInt(max.getText()), inHouseOrOutsourced));
+                PartInventory.modifiedParts.clear();
+            } else if (Objects.equals(partInventoryForm, "Add")) {
+                PartInventory.addPart(new EachPart(newId,
+                        name.getText(),
+                        Double.parseDouble(price.getText()),
+                        Integer.parseInt(stock.getText()),
+                        Integer.parseInt(min.getText()),
+                        Integer.parseInt(max.getText()), inHouseOrOutsourced));
+            }
         }
         onCancelPart(actionEvent);
     }
@@ -77,14 +87,16 @@ public class InventoryFormController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         Platform.runLater(() -> {
             partInventoryForm = (addEditItem);
-            if((PartInventory.getModifiedParts()).toArray().length >= 1) modifiedPart((PartInventory.getModifiedParts()).get(0));
-            if((Objects.equals(partInventoryForm, "Modify")) && (modify != null) ) {
+            if ((PartInventory.getModifiedParts()).toArray().length >= 1)
+                modifiedPart((PartInventory.getModifiedParts()).get(0));
+            if ((Objects.equals(partInventoryForm, "Modify")) && (modify != null)) {
                 id.setText(Integer.toString(modify.getId()));
                 name.setText(modify.getName());
                 price.setText(Double.toString(modify.getPrice()));
                 stock.setText(Integer.toString(modify.getStock()));
                 min.setText(Integer.toString(modify.getMin()));
-                max.setText(Integer.toString(modify.getMax()));}
+                max.setText(Integer.toString(modify.getMax()));
+            }
         });
     }
 }
