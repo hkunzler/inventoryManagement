@@ -53,17 +53,17 @@ public class InventoryFormController implements Initializable {
     }
 
     public void onSavePart(ActionEvent actionEvent) {
-        int id = uniqueIDGenerator.newId();
+        int newId = uniqueIDGenerator.newId();
         if((Objects.equals(partInventoryForm, "Modify"))) {
             PartInventory.getParts().set(PartInventory.getParts().indexOf(modify),
-                   new EachPart (id, name.getText(),
+                   new EachPart (Integer.parseInt(id.getText()), name.getText(),
                             Double.parseDouble(price.getText()),
                             Integer.parseInt(stock.getText()),
                             Integer.parseInt(min.getText()),
                             Integer.parseInt(max.getText()), inHouseOrOutsourced));
             PartInventory.modifiedParts.clear();
         } else if(Objects.equals(partInventoryForm, "Add")) {
-            PartInventory.addPart(new EachPart(id,
+            PartInventory.addPart(new EachPart(newId,
                     name.getText(),
                     Double.parseDouble(price.getText()),
                     Integer.parseInt(stock.getText()),
