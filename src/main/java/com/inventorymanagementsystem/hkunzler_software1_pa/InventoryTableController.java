@@ -17,6 +17,7 @@ import javafx.stage.Stage;
 import javafx.util.Pair;
 
 import java.net.URL;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class InventoryTableController implements Initializable {
@@ -41,8 +42,6 @@ public class InventoryTableController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        PartInventory.addPart(new EachPart(2, "Wallaby", 1, 2, 4, 5, new Pair<>(true, "test")));
-        PartInventory.addPart(new EachPart(4, "Way", 1, 2, 4, 5, new Pair<>(true, "test")));
         if (partTable != null) {
             partTable.setItems(PartInventory.getParts());
         }
@@ -68,8 +67,18 @@ public class InventoryTableController implements Initializable {
         String form = ((Button) actionEvent.getSource()).getText();
         try {
             Stage stage = new Stage();
-            FXMLLoader fxmlLoader = new FXMLLoader(InventoryManagementApplication.class.getResource(formType));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(formType));
             Parent root = (fxmlLoader.load());
+            if (Objects.equals(tableTitle.getText(), "Products")) {
+                ProductFormController controller = fxmlLoader.getController();
+                controller.setHeader(form);
+            } else {
+                PartFormController controller = fxmlLoader.getController();
+                controller.setHeader(form);
+                 if(Objects.equals(form, "Modify")) onModify();
+
+                controller.partFormController.setAddEditItem(form);
+            }
             stage.setScene(new Scene(root));
             stage.show();
             stage.setTitle(form);
@@ -77,7 +86,10 @@ public class InventoryTableController implements Initializable {
             e.printStackTrace();
         }
     }
-
+    public void onModify() {
+        Part modifyItem = partTable.getSelectionModel().getSelectedItem();
+        PartInventory.addModifiedPart(modifyItem, PartInventory.getModifiedParts());
+    }
     public void onDelete() {
         Part deleteItem = partTable.getSelectionModel().getSelectedItem();
         PartInventory.deletePart(deleteItem, PartInventory.getParts());
