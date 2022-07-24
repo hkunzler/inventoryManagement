@@ -74,6 +74,10 @@ public class InventoryTableController implements Initializable {
                 ProductFormController controller = fxmlLoader.getController();
                 controller.setHeader(form);
                 controller.partsTableController.partTable.setItems(PartInventory.getParts());
+
+                controller.addedPartsController.addProductPartButton.setText("Remove Associate Part");
+                controller.addedPartsController.partTable.setItems(PartInventory.getAddedProducts());
+
             } else {
                 PartFormController controller = fxmlLoader.getController();
                 controller.setHeader(form);
@@ -90,6 +94,10 @@ public class InventoryTableController implements Initializable {
         }
     }
 
+    public void onAddProductPart() {
+        Part productPart = partTable.getSelectionModel().getSelectedItem();
+        PartInventory.addAddedProducts(productPart, PartInventory.getAddedProducts());
+    }
     public void onModify() {
         Part modifyItem = partTable.getSelectionModel().getSelectedItem();
         PartInventory.addModifiedPart(modifyItem, PartInventory.getModifiedParts());

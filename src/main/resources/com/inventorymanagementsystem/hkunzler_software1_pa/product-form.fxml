@@ -4,24 +4,18 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1" prefHeight="898.0" prefWidth="1346.0"
-            xmlns="http://javafx.com/javafx/18"
-            fx:controller="com.inventorymanagementsystem.hkunzler_software1_pa.ProductFormController">
-    <Label fx:id="productFormTitle" layoutX="25.0" layoutY="40.0" text="Add Product" AnchorPane.leftAnchor="50.0"
-           AnchorPane.topAnchor="45.0">
+<AnchorPane prefHeight="898.0" prefWidth="1346.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.inventorymanagementsystem.hkunzler_software1_pa.ProductFormController">
+    <Label fx:id="productFormTitle" layoutX="25.0" layoutY="40.0" text="Add Product" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="45.0">
         <font>
-            <Font name="Arial Bold" size="14.0"/>
+            <Font name="Arial Bold" size="14.0" />
         </font>
     </Label>
-    <TextField layoutX="1113.0" layoutY="49.0" promptText="Search by Part ID or name" AnchorPane.rightAnchor="70.0"
-               AnchorPane.topAnchor="45.0">
+    <fx:include fx:id="productForm" source="inventory-form.fxml" />
+    <fx:include fx:id="addedParts" prefHeight="250.0" source="table-view.fxml" AnchorPane.bottomAnchor="100.0" AnchorPane.rightAnchor="45.0" />
+    <fx:include fx:id="partsTable" prefHeight="250.0" source="table-view.fxml" AnchorPane.rightAnchor="45.0" AnchorPane.topAnchor="45.0" />
+    <TextField layoutX="1113.0" layoutY="49.0" promptText="Search by Part ID or name" AnchorPane.rightAnchor="70.0" AnchorPane.topAnchor="45.0">
         <font>
-            <Font name="Arial" size="13.0"/>
+            <Font name="Arial" size="13.0" />
         </font>
     </TextField>
-    <fx:include source="inventory-form.fxml" fx:id="productForm"/>
-    <fx:include fx:id="partsTable" prefHeight="250.0" source="table-view.fxml" AnchorPane.rightAnchor="45.0"
-                AnchorPane.topAnchor="45.0"/>
-    <fx:include fx:id="selectedProducts" prefHeight="250.0" source="table-view.fxml" AnchorPane.bottomAnchor="100.0"
-                AnchorPane.rightAnchor="45.0"/>
 </AnchorPane>

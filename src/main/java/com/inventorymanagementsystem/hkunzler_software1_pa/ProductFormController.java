@@ -9,6 +9,9 @@ public class ProductFormController {
     @FXML
     TableViewController partsTableController;
 
+    @FXML
+    TableViewController addedPartsController;
+
     public void setHeader(String partFormTitle) {
         this.productFormTitle.setText(partFormTitle + " Product");
     }
