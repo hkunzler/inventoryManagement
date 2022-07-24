@@ -10,7 +10,6 @@ public class ProductFormController {
     public void setProductFormTitle(String data) {
         productFormTitle.setText(data);
     }
-
     public void setHeader(String partFormTitle) {
         this.productFormTitle.setText(partFormTitle + " Part");
     }

@@ -1,5 +1,6 @@
 package com.inventorymanagementsystem.hkunzler_software1_pa;
 
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
@@ -16,15 +17,15 @@ public class PartFormController {
     @FXML
     public Label partFormTitle;
     @FXML
-    public Label sourceLabel;
-    @FXML
-    public InventoryFormController partFormController;
-    Pair<Boolean, String> inHouseOrOutsourced;
+    public void setHeader(String partFormTitle) {
+        this.partFormTitle.setText(partFormTitle + " Part") ;
+    }
 
     @FXML
-    public void setHeader(String partFormTitle) {
-        this.partFormTitle.setText(partFormTitle + " Part");
-    }
+    public Label sourceLabel;
+    Pair<Boolean, String> inHouseOrOutsourced;
+    @FXML
+    public InventoryFormController partFormController;
 
     public void initialize() {
         inHouse.setSelected(true);
