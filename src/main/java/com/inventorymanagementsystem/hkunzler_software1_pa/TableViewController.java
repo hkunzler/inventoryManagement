@@ -1,8 +1,6 @@
 package com.inventorymanagementsystem.hkunzler_software1_pa;
 
 import com.inventorymanagementsystem.hkunzler_software1_pa.models.Part;
-import com.inventorymanagementsystem.hkunzler_software1_pa.models.PartInventory;
-import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TableColumn;

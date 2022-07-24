@@ -1,6 +1,5 @@
 package com.inventorymanagementsystem.hkunzler_software1_pa;
 
-import com.inventorymanagementsystem.hkunzler_software1_pa.models.EachPart;
 import com.inventorymanagementsystem.hkunzler_software1_pa.models.Part;
 import com.inventorymanagementsystem.hkunzler_software1_pa.models.PartInventory;
 import javafx.application.Platform;
@@ -15,7 +14,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.stage.Stage;
-import javafx.util.Pair;
 
 import java.net.URL;
 import java.util.Objects;
@@ -79,7 +77,7 @@ public class InventoryTableController implements Initializable {
             } else {
                 PartFormController controller = fxmlLoader.getController();
                 controller.setHeader(form);
-                 if(Objects.equals(form, "Modify")) onModify();
+                if (Objects.equals(form, "Modify")) onModify();
 
                 controller.partFormController.setAddEditItem(form);
                 controller.partFormController.setTableTitle(tableTitle);
@@ -91,10 +89,12 @@ public class InventoryTableController implements Initializable {
             e.printStackTrace();
         }
     }
+
     public void onModify() {
         Part modifyItem = partTable.getSelectionModel().getSelectedItem();
         PartInventory.addModifiedPart(modifyItem, PartInventory.getModifiedParts());
     }
+
     public void onDelete() {
         Part deleteItem = partTable.getSelectionModel().getSelectedItem();
         PartInventory.deletePart(deleteItem, PartInventory.getParts());
