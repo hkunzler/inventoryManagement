@@ -75,6 +75,9 @@ public class InventoryTableController implements Initializable {
             Parent root = (fxmlLoader.load());
             if (Objects.equals(tableTitle.getText(), "Products")) {
                 ProductFormController controller = fxmlLoader.getController();
+                if (Objects.equals(form, "Modify")) {
+                    onModify();
+                }
                 controller.setHeader(form);
                 controller.partsTableController.partTable.setItems(PartInventory.getParts());
 
@@ -109,11 +112,13 @@ public class InventoryTableController implements Initializable {
 
     public void onModify() {
         Part modifyItem = partTable.getSelectionModel().getSelectedItem();
-        PartInventory.addModifiedPart(modifyItem, PartInventory.getModifiedParts());
+        if(Objects.equals(tableTitle.getText(), "Parts")) PartInventory.addModifiedPart(modifyItem, PartInventory.getModifiedParts());
+        else if(Objects.equals(tableTitle.getText(), "Products")) PartInventory.addModifiedProducts(modifyItem, PartInventory.getModifiedProducts());
     }
 
     public void onDelete() {
         Part deleteItem = partTable.getSelectionModel().getSelectedItem();
-        PartInventory.deletePart(deleteItem, PartInventory.getParts());
+        if(Objects.equals(tableTitle.getText(), "Parts")) PartInventory.deletePart(deleteItem, PartInventory.getParts());
+        else if(Objects.equals(tableTitle.getText(), "Products")) PartInventory.deleteProduct(deleteItem, PartInventory.getProducts());
     }
 }

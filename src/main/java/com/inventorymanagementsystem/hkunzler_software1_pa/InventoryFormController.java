@@ -86,7 +86,6 @@ public class InventoryFormController implements Initializable {
                                 Integer.parseInt(stock.getText()),
                                 Integer.parseInt(min.getText()),
                                 Integer.parseInt(max.getText()), inHouseOrOutsourced));
-                PartInventory.getModifiedParts().clear();
             } else if (Objects.equals(partInventoryForm, "Add")) {
                 PartInventory.addProduct(new EachPart(newId,
                         name.getText(),
@@ -103,8 +102,11 @@ public class InventoryFormController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         Platform.runLater(() -> {
             partInventoryForm = (addEditItem);
-            if ((PartInventory.getModifiedParts()).toArray().length >= 1)
+            if ((PartInventory.getModifiedParts()).toArray().length >= 1 && Objects.equals(tableTitle, "Parts")){
                 modifiedPart((PartInventory.getModifiedParts()).get(0));
+            } else if ((PartInventory.getModifiedProducts()).toArray().length >= 1 && Objects.equals(tableTitle, "Products")){
+                modifiedPart((PartInventory.getModifiedProducts()).get(0));
+            }
             if ((Objects.equals(partInventoryForm, "Modify")) && (modify != null)) {
                 id.setText(Integer.toString(modify.getId()));
                 name.setText(modify.getName());
@@ -113,7 +115,10 @@ public class InventoryFormController implements Initializable {
                 min.setText(Integer.toString(modify.getMin()));
                 max.setText(Integer.toString(modify.getMax()));
             }
-            Platform.runLater(() -> PartInventory.getModifiedParts().clear());
+            Platform.runLater(() -> {
+                PartInventory.getModifiedParts().clear();
+                PartInventory.getModifiedProducts().clear();
+            });
         });
     }
 }

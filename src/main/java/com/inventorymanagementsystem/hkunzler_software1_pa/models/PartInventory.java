@@ -54,7 +54,7 @@ public class PartInventory {
         return products;
     }
 
-    public static ObservableList<Part> getModifiedProduct() {
+    public static ObservableList<Part> getModifiedProducts() {
         return modifiedProducts;
     }
 
