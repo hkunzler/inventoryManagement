@@ -32,9 +32,9 @@ public class TableViewController implements Initializable {
     public void addProductPart() {
         Part productPart = partTable.getSelectionModel().getSelectedItem();
         if (Objects.equals(addProductPartButton.getText(), "Add"))
-            PartInventory.addAddedProducts(productPart, PartInventory.getAddedProducts());
+            PartInventory.addProductPart(productPart, PartInventory.getProductParts());
         if (Objects.equals(addProductPartButton.getText(), "Remove Associate Part"))
-            PartInventory.deleteAddedProduct(productPart, PartInventory.getAddedProducts());
+            PartInventory.deleteProductPart(productPart, PartInventory.getProductParts());
     }
 
 }

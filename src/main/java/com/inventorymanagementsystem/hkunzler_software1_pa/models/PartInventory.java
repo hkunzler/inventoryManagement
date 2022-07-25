@@ -8,6 +8,7 @@ public class PartInventory {
     public static final ObservableList<Part> modifiedParts = FXCollections.observableArrayList();
     public static final ObservableList<Part> addedProducts = FXCollections.observableArrayList();
     public static final ObservableList<Part> products = FXCollections.observableArrayList();
+    public static final ObservableList<Part> modifiedProducts = FXCollections.observableArrayList();
 
     public static void addPart(Part part) {
         parts.add(part);
@@ -29,15 +30,15 @@ public class PartInventory {
         modifiedParts.add(part);
     }
 
-    public static ObservableList<Part> getAddedProducts() {
+    public static ObservableList<Part> getProductParts() {
         return addedProducts;
     }
 
-    public static void addAddedProducts(Part part, ObservableList<Part> addedProducts) {
+    public static void addProductPart(Part part, ObservableList<Part> addedProducts) {
         addedProducts.add(part);
     }
 
-    public static void deleteAddedProduct(Part part, ObservableList<Part> addedProducts) {
+    public static void deleteProductPart(Part part, ObservableList<Part> addedProducts) {
         addedProducts.remove(part);
     }
 
@@ -51,5 +52,13 @@ public class PartInventory {
 
     public static ObservableList<Part> getProducts() {
         return products;
+    }
+
+    public static ObservableList<Part> getModifiedProduct() {
+        return modifiedProducts;
+    }
+
+    public static void addModifiedProducts(Part part, ObservableList<Part> modifiedProducts) {
+        modifiedProducts.add(part);
     }
 }
