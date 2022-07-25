@@ -28,10 +28,13 @@ public class TableViewController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
     }
+
     public void addProductPart() {
         Part productPart = partTable.getSelectionModel().getSelectedItem();
-        if(Objects.equals(addProductPartButton.getText(), "Add"))  PartInventory.addAddedProducts(productPart, PartInventory.getAddedProducts());
-        if(Objects.equals(addProductPartButton.getText(), "Remove Associate Part")) PartInventory.deleteAddedProduct(productPart, PartInventory.getAddedProducts());
+        if (Objects.equals(addProductPartButton.getText(), "Add"))
+            PartInventory.addAddedProducts(productPart, PartInventory.getAddedProducts());
+        if (Objects.equals(addProductPartButton.getText(), "Remove Associate Part"))
+            PartInventory.deleteAddedProduct(productPart, PartInventory.getAddedProducts());
     }
 
 }

@@ -1,10 +1,17 @@
 package com.inventorymanagementsystem.hkunzler_software1_pa;
 
+import com.inventorymanagementsystem.hkunzler_software1_pa.models.EachPart;
+import com.inventorymanagementsystem.hkunzler_software1_pa.models.Part;
+import com.inventorymanagementsystem.hkunzler_software1_pa.models.PartInventory;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyEvent;
 import javafx.util.Pair;
+
+import java.util.Objects;
 
 public class PartFormController {
     @FXML
@@ -17,9 +24,31 @@ public class PartFormController {
     public Label partFormTitle;
     @FXML
     public Label sourceLabel;
+
     @FXML
     public InventoryFormController partFormController;
     Pair<Boolean, String> inHouseOrOutsourced;
+
+    public void setIsInHouse(Boolean isInHouse) {
+        if (isInHouse) {
+            inHouse.setSelected(true);
+            outsourced.setSelected(false);
+            sourceLabel.setText("Machine ID");
+        } else {
+            inHouse.setSelected(false);
+            outsourced.setSelected(true);
+            sourceLabel.setText("Company ID");
+
+        }
+        partFormController.setInHouseOrOutsourced(new Pair<>(inHouse.isSelected(), partType.getText()));
+    }
+
+    public void getInHouseOrOutsourced(Part part) {
+        if (part instanceof EachPart eachPart) {
+            setIsInHouse(eachPart.getInHouseOrOutsourced().getKey());
+            partType.setText(eachPart.getInHouseOrOutsourced().getValue());
+        }
+    }
 
     @FXML
     public void setHeader(String partFormTitle) {
@@ -27,30 +56,33 @@ public class PartFormController {
     }
 
     public void initialize() {
-        inHouse.setSelected(true);
-        outsourced.setSelected(false);
-        sourceLabel.setText("Machine ID");
-        setInHouseOrOutsourced(new Pair<>(inHouse.isSelected(), partType.getText()));
+        setIsInHouse(true);
+
+        Platform.runLater(() -> {
+
+            if (Objects.equals(partFormTitle.getText(), "Modify Part")) {
+                getInHouseOrOutsourced(PartInventory.getModifiedParts().get(0));
+
+            }
+        });
+
     }
 
-    public void setInHouseOrOutsourced(Pair<Boolean, String> inHouseOrOutsourced) {
-        this.inHouseOrOutsourced = inHouseOrOutsourced;
-        partFormController.setInHouseOrOutsourced(inHouseOrOutsourced);
-    }
 
     @FXML
     public void onInHouseSelect() {
-        inHouse.setSelected(true);
-        outsourced.setSelected(false);
-        sourceLabel.setText("Machine ID");
-        setInHouseOrOutsourced(new Pair<>(inHouse.isSelected(), partType.getText()));
+        setIsInHouse(true);
     }
 
     @FXML
     public void onOutsourceSelect() {
-        inHouse.setSelected(false);
-        outsourced.setSelected(true);
-        sourceLabel.setText("Company ID");
-        setInHouseOrOutsourced(new Pair<>(inHouse.isSelected(), partType.getText()));
+        setIsInHouse(false);
+
+    }
+
+
+    public void onPartType(KeyEvent actionEvent) {
+        Platform.runLater(() -> partFormController.setInHouseOrOutsourced(new Pair<>(inHouse.isSelected(), partType.getText())));
+
     }
 }

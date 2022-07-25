@@ -7,12 +7,6 @@ public class EachPart extends Part {
 
     public EachPart(int id, String name, double price, int stock, int min, int max, Pair<Boolean, String> inHouseOrOutsourced) {
         super(id, name, price, stock, min, max);
-        setId(id);
-        setName(name);
-        setPrice(price);
-        setStock(stock);
-        setMin(min);
-        setMax(max);
         this.inHouseOrOutsourced = inHouseOrOutsourced;
 
     }

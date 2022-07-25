@@ -31,7 +31,7 @@ public class InventoryFormController implements Initializable {
     public TextField max;
     PartInventory partInventory;
     EachPart eachPart;
-    Pair<Boolean, String> inHouseOrOutsourced;
+    private Pair<Boolean, String> inHouseOrOutsourced;
     @FXML
     private TextField id;
 
@@ -70,7 +70,6 @@ public class InventoryFormController implements Initializable {
                                 Integer.parseInt(stock.getText()),
                                 Integer.parseInt(min.getText()),
                                 Integer.parseInt(max.getText()), inHouseOrOutsourced));
-                PartInventory.modifiedParts.clear();
             } else if (Objects.equals(partInventoryForm, "Add")) {
                 PartInventory.addPart(new EachPart(newId,
                         name.getText(),
@@ -87,7 +86,7 @@ public class InventoryFormController implements Initializable {
                                 Integer.parseInt(stock.getText()),
                                 Integer.parseInt(min.getText()),
                                 Integer.parseInt(max.getText()), inHouseOrOutsourced));
-                PartInventory.modifiedParts.clear();
+                PartInventory.getModifiedParts().clear();
             } else if (Objects.equals(partInventoryForm, "Add")) {
                 PartInventory.addProduct(new EachPart(newId,
                         name.getText(),
@@ -114,6 +113,7 @@ public class InventoryFormController implements Initializable {
                 min.setText(Integer.toString(modify.getMin()));
                 max.setText(Integer.toString(modify.getMax()));
             }
+            Platform.runLater(() -> PartInventory.getModifiedParts().clear());
         });
     }
 }

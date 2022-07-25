@@ -20,7 +20,7 @@
         </font>
     </Label>
 
-    <TextField fx:id="partType" layoutX="121.0" layoutY="355.0" AnchorPane.leftAnchor="190.0"
+    <TextField fx:id="partType" onKeyPressed="#onPartType" layoutX="121.0" layoutY="355.0" AnchorPane.leftAnchor="190.0"
                AnchorPane.topAnchor="340.0"/>
     <RadioButton fx:id="inHouse" layoutX="178.0" layoutY="45.0" mnemonicParsing="false" onAction="#onInHouseSelect"
                  selected="true" text="In-House"/>

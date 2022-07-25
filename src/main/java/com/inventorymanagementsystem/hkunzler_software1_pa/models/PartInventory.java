@@ -40,6 +40,7 @@ public class PartInventory {
     public static void deleteAddedProduct(Part part, ObservableList<Part> addedProducts) {
         addedProducts.remove(part);
     }
+
     public static void addProduct(Part part) {
         products.add(part);
     }
