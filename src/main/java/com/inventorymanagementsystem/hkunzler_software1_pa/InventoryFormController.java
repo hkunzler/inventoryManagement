@@ -10,6 +10,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -32,6 +33,8 @@ public class InventoryFormController implements Initializable {
     @FXML
     public TextField max;
 
+    public boolean hasErrors = false;
+
     private Pair<Boolean, String> inHouseOrOutsourced;
     @FXML
     private TextField id;
@@ -41,6 +44,43 @@ public class InventoryFormController implements Initializable {
     private String partInventoryForm;
     private String tableTitle;
     private ObservableList<Integer> productParts;
+
+    public String getFieldLabel(TextField fieldLabel) {
+        if (Objects.equals(fieldLabel, stock)) {
+            return "Stock";
+        }
+        if (Objects.equals(fieldLabel, min)) {
+            return "Min";
+        }
+        if (Objects.equals(fieldLabel, max)) {
+            return "Max";
+        }
+        if (Objects.equals(fieldLabel, price)) {
+            return "Price";
+        }
+        if (Objects.equals(fieldLabel, name)) {
+            return "Label";
+        }
+        return "Field";
+    }
+
+    public void errorCheck(TextField fieldCheck) {
+        if (fieldCheck == null || fieldCheck.getText().isEmpty()) {
+            Alert error = new Alert(Alert.AlertType.ERROR);
+            error.setTitle("Empty Field");
+            error.setContentText("Complete all fields");
+            error.showAndWait();
+            hasErrors = true;
+        } else if ((fieldCheck.equals(stock) || fieldCheck.equals(max) || fieldCheck.equals(min)) && !fieldCheck.getText().matches("[0-9]*")) {
+            Alert error = new Alert(Alert.AlertType.ERROR);
+            error.setTitle("Number Field");
+            error.setContentText(getFieldLabel(fieldCheck) + " must be an integer");
+            error.showAndWait();
+            hasErrors = true;
+        } else {
+            hasErrors = false;
+        }
+    }
 
     public void setAddEditItem(String addEditItem) {
         this.addEditItem = addEditItem;
@@ -68,6 +108,7 @@ public class InventoryFormController implements Initializable {
 
     public void onSavePart(ActionEvent actionEvent) {
         int newId = uniqueIDGenerator.newId();
+        errorChecking();
         if (Objects.equals(tableTitle, "Parts")) {
             if ((Objects.equals(partInventoryForm, "Modify"))) {
                 PartInventory.getParts().set(PartInventory.getParts().indexOf(modify),
@@ -76,7 +117,7 @@ public class InventoryFormController implements Initializable {
                                 Integer.parseInt(stock.getText()),
                                 Integer.parseInt(min.getText()),
                                 Integer.parseInt(max.getText()), inHouseOrOutsourced));
-            } else if (Objects.equals(partInventoryForm, "Add")) {
+            } else if (!hasErrors && Objects.equals(partInventoryForm, "Add")) {
                 PartInventory.addPart(new EachPart(newId,
                         name.getText(),
                         Double.parseDouble(price.getText()),
@@ -103,6 +144,14 @@ public class InventoryFormController implements Initializable {
             }
         }
         onCancelPart(actionEvent);
+    }
+
+    public void errorChecking() {
+        TextField[] allFields = {stock, min, max, price, name};
+        for (TextField allField : allFields) {
+            errorCheck(allField);
+            if (hasErrors) break;
+        }
     }
 
     @Override
