@@ -10,10 +10,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 
 import java.net.URL;
@@ -71,13 +68,18 @@ public class InventoryTableController implements Initializable {
 
     public void onOpenForm(ActionEvent actionEvent) {
         String form = ((Button) actionEvent.getSource()).getText();
-        try {
+        if(Objects.equals(partTable.getSelectionModel().getSelectedItem(), null) && Objects.equals(form, "Modify")){
+            Alert error = new Alert(Alert.AlertType.ERROR);
+            error.setTitle("Modify");
+            error.setContentText("Must select item to modify");
+            error.showAndWait();
+        }else try {
             Stage stage = new Stage();
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(formType));
             Parent root = (fxmlLoader.load());
             if (Objects.equals(tableTitle.getText(), "Products")) {
                 ProductFormController controller = fxmlLoader.getController();
-                if (Objects.equals(form, "Modify")) {
+                if ( Objects.equals(form, "Modify")) {
                     onModify();
                     Part temp = PartInventory.getModifiedProducts().get(0);
                     if (temp instanceof Product product) {
@@ -100,7 +102,14 @@ public class InventoryTableController implements Initializable {
             } else {
                 PartFormController controller = fxmlLoader.getController();
                 controller.setHeader(form);
-                if (Objects.equals(form, "Modify")) {
+                if(Objects.equals(partTable.getSelectionModel().getSelectedItem(), null) && Objects.equals(form, "Modify")){
+                    Alert error = new Alert(Alert.AlertType.ERROR);
+                    error.setTitle("Modify Part");
+                    error.setContentText("Must select part to modify");
+                    error.showAndWait();
+                    onCancelPart(actionEvent);
+                }
+                else if (partTable.getSelectionModel().getSelectedItem() != null && Objects.equals(form, "Modify")) {
                     onModify();
                 }
                 controller.partFormController.setAddEditItem(form);
@@ -128,7 +137,15 @@ public class InventoryTableController implements Initializable {
 
     public void onDelete() {
         Part deleteItem = partTable.getSelectionModel().getSelectedItem();
-        if (Objects.equals(tableTitle.getText(), "Parts")) PartInventory.deletePart(deleteItem);
+        if(Objects.equals(deleteItem, null)){
+            Alert error = new Alert(Alert.AlertType.ERROR);
+            error.setTitle("Delete");
+            error.setContentText("Must select item to delete");
+            error.showAndWait();
+        }else if (Objects.equals(tableTitle.getText(), "Parts")) PartInventory.deletePart(deleteItem);
         else if (Objects.equals(tableTitle.getText(), "Products")) PartInventory.deleteProduct(deleteItem);
+    }
+    public void onCancelPart(ActionEvent actionEvent) {
+        ((Stage) (((Button) actionEvent.getSource()).getScene().getWindow())).close();
     }
 }

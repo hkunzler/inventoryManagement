@@ -109,41 +109,43 @@ public class InventoryFormController implements Initializable {
     public void onSavePart(ActionEvent actionEvent) {
         int newId = uniqueIDGenerator.newId();
         errorChecking();
-        if (Objects.equals(tableTitle, "Parts")) {
-            if ((Objects.equals(partInventoryForm, "Modify"))) {
-                PartInventory.getParts().set(PartInventory.getParts().indexOf(modify),
-                        new EachPart(Integer.parseInt(id.getText()), name.getText(),
-                                Double.parseDouble(price.getText()),
-                                Integer.parseInt(stock.getText()),
-                                Integer.parseInt(min.getText()),
-                                Integer.parseInt(max.getText()), inHouseOrOutsourced));
-            } else if (!hasErrors && Objects.equals(partInventoryForm, "Add")) {
-                PartInventory.addPart(new EachPart(newId,
-                        name.getText(),
-                        Double.parseDouble(price.getText()),
-                        Integer.parseInt(stock.getText()),
-                        Integer.parseInt(min.getText()),
-                        Integer.parseInt(max.getText()), inHouseOrOutsourced));
-            }
-        } else if (Objects.equals(tableTitle, "Products")) {
+        if(!hasErrors) {
+            if (Objects.equals(tableTitle, "Parts")) {
+                if ((Objects.equals(partInventoryForm, "Modify"))) {
+                    PartInventory.getParts().set(PartInventory.getParts().indexOf(modify),
+                            new EachPart(Integer.parseInt(id.getText()), name.getText(),
+                                    Double.parseDouble(price.getText()),
+                                    Integer.parseInt(stock.getText()),
+                                    Integer.parseInt(min.getText()),
+                                    Integer.parseInt(max.getText()), inHouseOrOutsourced));
+                } else if (Objects.equals(partInventoryForm, "Add")) {
+                    PartInventory.addPart(new EachPart(newId,
+                            name.getText(),
+                            Double.parseDouble(price.getText()),
+                            Integer.parseInt(stock.getText()),
+                            Integer.parseInt(min.getText()),
+                            Integer.parseInt(max.getText()), inHouseOrOutsourced));
+                }
+            } else if (Objects.equals(tableTitle, "Products")) {
 
-            if ((Objects.equals(partInventoryForm, "Modify"))) {
-                PartInventory.getProducts().set(PartInventory.getProducts().indexOf(modify),
-                        new Product(Integer.parseInt(id.getText()), name.getText(),
-                                Double.parseDouble(price.getText()),
-                                Integer.parseInt(stock.getText()),
-                                Integer.parseInt(min.getText()),
-                                Integer.parseInt(max.getText()), productParts));
-            } else if (Objects.equals(partInventoryForm, "Add")) {
-                PartInventory.addProduct(new Product(newId,
-                        name.getText(),
-                        Double.parseDouble(price.getText()),
-                        Integer.parseInt(stock.getText()),
-                        Integer.parseInt(min.getText()),
-                        Integer.parseInt(max.getText()), productParts));
+                if ((Objects.equals(partInventoryForm, "Modify"))) {
+                    PartInventory.getProducts().set(PartInventory.getProducts().indexOf(modify),
+                            new Product(Integer.parseInt(id.getText()), name.getText(),
+                                    Double.parseDouble(price.getText()),
+                                    Integer.parseInt(stock.getText()),
+                                    Integer.parseInt(min.getText()),
+                                    Integer.parseInt(max.getText()), productParts));
+                } else if (Objects.equals(partInventoryForm, "Add")) {
+                    PartInventory.addProduct(new Product(newId,
+                            name.getText(),
+                            Double.parseDouble(price.getText()),
+                            Integer.parseInt(stock.getText()),
+                            Integer.parseInt(min.getText()),
+                            Integer.parseInt(max.getText()), productParts));
+                }
             }
+            onCancelPart(actionEvent);
         }
-        onCancelPart(actionEvent);
     }
 
     public void errorChecking() {

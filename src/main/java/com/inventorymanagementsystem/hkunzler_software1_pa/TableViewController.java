@@ -2,7 +2,9 @@ package com.inventorymanagementsystem.hkunzler_software1_pa;
 
 import com.inventorymanagementsystem.hkunzler_software1_pa.models.Part;
 import com.inventorymanagementsystem.hkunzler_software1_pa.models.PartInventory;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -25,10 +27,24 @@ public class TableViewController {
     public void addProductPart() {
         Part productPart = partTable.getSelectionModel().getSelectedItem();
         if (Objects.equals(addProductPartButton.getText(), "Add")) {
-            PartInventory.addProductPart(productPart);
+            if(Objects.equals(productPart, null)){
+                Alert error = new Alert(Alert.AlertType.ERROR);
+                error.setTitle("Add");
+                error.setContentText("Must select item to add");
+                error.showAndWait();
+            }else {
+                PartInventory.addProductPart(productPart);
+            }
         }
         if (Objects.equals(addProductPartButton.getText(), "Remove Associate Part"))
-            PartInventory.deleteProductPart(productPart);
+            if(Objects.equals(productPart, null)){
+            Alert error = new Alert(Alert.AlertType.ERROR);
+            error.setTitle("Delete");
+            error.setContentText("Must select item to delete");
+            error.showAndWait();
+        }else {
+                PartInventory.deleteProductPart(productPart);
+            }
     }
 
 }
