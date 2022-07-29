@@ -18,7 +18,7 @@ public class InventoryManagementController implements Initializable {
     @FXML
     private InventoryTableController productsTableController;
 
-    public void inventoryManagementExitButton(ActionEvent actionEvent) {
+    public void inventoryManagementExitButton() {
         Alert exitAlert = new Alert(Alert.AlertType.CONFIRMATION);
         exitAlert.setTitle("Exit Warning");
         exitAlert.setContentText("Are you sure you want to exit?");

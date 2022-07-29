@@ -14,8 +14,4 @@ public class EachPart extends Part {
     public Pair<Boolean, String> getInHouseOrOutsourced() {
         return inHouseOrOutsourced;
     }
-
-    public void setInHouseOrOutsourced(Pair<Boolean, String> inHouseOrOutsourced) {
-        this.inHouseOrOutsourced = inHouseOrOutsourced;
-    }
 }

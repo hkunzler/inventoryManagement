@@ -14,7 +14,7 @@ public class PartInventory {
         parts.add(part);
     }
 
-    public static void deletePart(Part part, ObservableList<Part> parts) {
+    public static void deletePart(Part part) {
         parts.remove(part);
     }
 
@@ -26,7 +26,7 @@ public class PartInventory {
         return modifiedParts;
     }
 
-    public static void addModifiedPart(Part part, ObservableList<Part> modifiedParts) {
+    public static void addModifiedPart(Part part) {
         modifiedParts.add(part);
     }
 
@@ -34,11 +34,11 @@ public class PartInventory {
         return addedProducts;
     }
 
-    public static void addProductPart(Part part, ObservableList<Part> addedProducts) {
+    public static void addProductPart(Part part) {
         addedProducts.add(part);
     }
 
-    public static void deleteProductPart(Part part, ObservableList<Part> addedProducts) {
+    public static void deleteProductPart(Part part) {
         addedProducts.remove(part);
     }
 
@@ -46,7 +46,7 @@ public class PartInventory {
         products.add(part);
     }
 
-    public static void deleteProduct(Part part, ObservableList<Part> products) {
+    public static void deleteProduct(Part part) {
         products.remove(part);
     }
 
@@ -58,7 +58,7 @@ public class PartInventory {
         return modifiedProducts;
     }
 
-    public static void addModifiedProducts(Part part, ObservableList<Part> modifiedProducts) {
+    public static void addModifiedProducts(Part part) {
         modifiedProducts.add(part);
     }
 }

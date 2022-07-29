@@ -2,6 +2,7 @@ package com.inventorymanagementsystem.hkunzler_software1_pa;
 
 import com.inventorymanagementsystem.hkunzler_software1_pa.models.Part;
 import com.inventorymanagementsystem.hkunzler_software1_pa.models.PartInventory;
+import com.inventorymanagementsystem.hkunzler_software1_pa.models.Product;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -49,6 +50,7 @@ public class InventoryTableController implements Initializable {
                 partTable.setItems(PartInventory.getProducts());
             }
         });
+
     }
 
     public void setTableTitle(String tableTitle) {
@@ -77,12 +79,20 @@ public class InventoryTableController implements Initializable {
                 ProductFormController controller = fxmlLoader.getController();
                 if (Objects.equals(form, "Modify")) {
                     onModify();
+                    Part temp = PartInventory.getModifiedProducts().get(0);
+                    if (temp instanceof Product product) {
+                        for (int i = 0; i < PartInventory.getParts().toArray().length; i++) {
+                            controller.addedPartsController.partTable.getItems().add(PartInventory.getParts().get(i));
+                        }
+                    }
                 }
                 controller.setHeader(form);
-                controller.partsTableController.partTable.setItems(PartInventory.getParts());
 
-                controller.addedPartsController.addProductPartButton.setText("Remove Associate Part");
+                PartInventory.getProductParts().clear();
                 controller.addedPartsController.partTable.setItems(PartInventory.getProductParts());
+
+                controller.partsTableController.partTable.setItems(PartInventory.getParts());
+                controller.addedPartsController.addProductPartButton.setText("Remove Associate Part");
 
                 controller.productFormController.setAddEditItem(form);
                 controller.productFormController.setTableTitle(tableTitle);
@@ -93,7 +103,6 @@ public class InventoryTableController implements Initializable {
                 if (Objects.equals(form, "Modify")) {
                     onModify();
                 }
-
                 controller.partFormController.setAddEditItem(form);
                 controller.partFormController.setTableTitle(tableTitle);
             }
@@ -107,18 +116,19 @@ public class InventoryTableController implements Initializable {
 
     public void onAddProductPart() {
         Part productPart = partTable.getSelectionModel().getSelectedItem();
-        PartInventory.addProductPart(productPart, PartInventory.getProductParts());
+        PartInventory.addProductPart(productPart);
     }
 
     public void onModify() {
         Part modifyItem = partTable.getSelectionModel().getSelectedItem();
-        if(Objects.equals(tableTitle.getText(), "Parts")) PartInventory.addModifiedPart(modifyItem, PartInventory.getModifiedParts());
-        else if(Objects.equals(tableTitle.getText(), "Products")) PartInventory.addModifiedProducts(modifyItem, PartInventory.getModifiedProducts());
+        if (Objects.equals(tableTitle.getText(), "Parts")) PartInventory.addModifiedPart(modifyItem);
+        else if (Objects.equals(tableTitle.getText(), "Products")) PartInventory.addModifiedProducts(modifyItem);
+
     }
 
     public void onDelete() {
         Part deleteItem = partTable.getSelectionModel().getSelectedItem();
-        if(Objects.equals(tableTitle.getText(), "Parts")) PartInventory.deletePart(deleteItem, PartInventory.getParts());
-        else if(Objects.equals(tableTitle.getText(), "Products")) PartInventory.deleteProduct(deleteItem, PartInventory.getProducts());
+        if (Objects.equals(tableTitle.getText(), "Parts")) PartInventory.deletePart(deleteItem);
+        else if (Objects.equals(tableTitle.getText(), "Products")) PartInventory.deleteProduct(deleteItem);
     }
 }

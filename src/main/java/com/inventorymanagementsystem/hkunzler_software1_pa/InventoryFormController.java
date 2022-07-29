@@ -3,8 +3,10 @@ package com.inventorymanagementsystem.hkunzler_software1_pa;
 import com.inventorymanagementsystem.hkunzler_software1_pa.models.EachPart;
 import com.inventorymanagementsystem.hkunzler_software1_pa.models.Part;
 import com.inventorymanagementsystem.hkunzler_software1_pa.models.PartInventory;
+import com.inventorymanagementsystem.hkunzler_software1_pa.models.Product;
 import com.inventorymanagementsystem.hkunzler_software1_pa.utils.uniqueIDGenerator;
 import javafx.application.Platform;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -29,8 +31,7 @@ public class InventoryFormController implements Initializable {
     public TextField min;
     @FXML
     public TextField max;
-    PartInventory partInventory;
-    EachPart eachPart;
+
     private Pair<Boolean, String> inHouseOrOutsourced;
     @FXML
     private TextField id;
@@ -39,6 +40,7 @@ public class InventoryFormController implements Initializable {
     private Part modify;
     private String partInventoryForm;
     private String tableTitle;
+    private ObservableList<Integer> productParts;
 
     public void setAddEditItem(String addEditItem) {
         this.addEditItem = addEditItem;
@@ -60,6 +62,10 @@ public class InventoryFormController implements Initializable {
         this.tableTitle = tableTitle.getText();
     }
 
+    public void setProductParts(ObservableList<Integer> productParts) {
+        this.productParts = productParts;
+    }
+
     public void onSavePart(ActionEvent actionEvent) {
         int newId = uniqueIDGenerator.newId();
         if (Objects.equals(tableTitle, "Parts")) {
@@ -79,20 +85,21 @@ public class InventoryFormController implements Initializable {
                         Integer.parseInt(max.getText()), inHouseOrOutsourced));
             }
         } else if (Objects.equals(tableTitle, "Products")) {
+
             if ((Objects.equals(partInventoryForm, "Modify"))) {
                 PartInventory.getProducts().set(PartInventory.getProducts().indexOf(modify),
-                        new EachPart(Integer.parseInt(id.getText()), name.getText(),
+                        new Product(Integer.parseInt(id.getText()), name.getText(),
                                 Double.parseDouble(price.getText()),
                                 Integer.parseInt(stock.getText()),
                                 Integer.parseInt(min.getText()),
-                                Integer.parseInt(max.getText()), inHouseOrOutsourced));
+                                Integer.parseInt(max.getText()), productParts));
             } else if (Objects.equals(partInventoryForm, "Add")) {
-                PartInventory.addProduct(new EachPart(newId,
+                PartInventory.addProduct(new Product(newId,
                         name.getText(),
                         Double.parseDouble(price.getText()),
                         Integer.parseInt(stock.getText()),
                         Integer.parseInt(min.getText()),
-                        Integer.parseInt(max.getText()), inHouseOrOutsourced));
+                        Integer.parseInt(max.getText()), productParts));
             }
         }
         onCancelPart(actionEvent);
@@ -102,9 +109,9 @@ public class InventoryFormController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         Platform.runLater(() -> {
             partInventoryForm = (addEditItem);
-            if ((PartInventory.getModifiedParts()).toArray().length >= 1 && Objects.equals(tableTitle, "Parts")){
+            if ((PartInventory.getModifiedParts()).toArray().length >= 1 && Objects.equals(tableTitle, "Parts")) {
                 modifiedPart((PartInventory.getModifiedParts()).get(0));
-            } else if ((PartInventory.getModifiedProducts()).toArray().length >= 1 && Objects.equals(tableTitle, "Products")){
+            } else if ((PartInventory.getModifiedProducts()).toArray().length >= 1 && Objects.equals(tableTitle, "Products")) {
                 modifiedPart((PartInventory.getModifiedProducts()).get(0));
             }
             if ((Objects.equals(partInventoryForm, "Modify")) && (modify != null)) {

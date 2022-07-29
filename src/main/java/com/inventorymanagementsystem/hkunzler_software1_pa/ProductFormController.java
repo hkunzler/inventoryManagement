@@ -15,7 +15,7 @@ public class ProductFormController {
     @FXML
     InventoryFormController productFormController;
 
-    public void setHeader(String partFormTitle) {
-        this.productFormTitle.setText(partFormTitle + " Product");
+    public void setHeader(String productFormTitle) {
+        this.productFormTitle.setText(productFormTitle + " Product");
     }
 }
