@@ -1,7 +1,6 @@
 package com.inventorymanagementsystem.hkunzler_software1_pa;
 
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
@@ -11,13 +10,27 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class InventoryManagementController implements Initializable {
+    // Nested fxml
+    @FXML
+    InventoryTableController partsTableController;
+    @FXML
+    InventoryTableController productsTableController;
     @FXML
     private Label inventoryManagementLabel;
-    @FXML
-    private InventoryTableController partsTableController;
-    @FXML
-    private InventoryTableController productsTableController;
 
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        // Initial values for part form
+        partsTableController.setFormLoader("part-form.fxml");
+
+        // Initial values for product form
+        productsTableController.setTableTitle("Products");
+        productsTableController.setItemID("Product ID");
+        productsTableController.setItemName("Product Name");
+        productsTableController.setFormLoader("product-form.fxml");
+    }
+
+    // Exit confirmation - will exit project
     public void inventoryManagementExitButton() {
         Alert exitAlert = new Alert(Alert.AlertType.CONFIRMATION);
         exitAlert.setTitle("Exit Warning");
@@ -25,15 +38,5 @@ public class InventoryManagementController implements Initializable {
         exitAlert.showAndWait();
 
         Platform.exit();
-    }
-
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        partsTableController.setFormType("part-form.fxml");
-
-        productsTableController.setTableTitle("Products");
-        productsTableController.setItemID("Product ID");
-        productsTableController.setItemName("Product Name");
-        productsTableController.setFormType("product-form.fxml");
     }
 }

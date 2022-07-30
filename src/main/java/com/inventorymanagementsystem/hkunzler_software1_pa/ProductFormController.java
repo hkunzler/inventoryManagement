@@ -6,6 +6,8 @@ import javafx.scene.control.Label;
 public class ProductFormController {
     @FXML
     public Label productFormTitle;
+
+    // Nested fxml
     @FXML
     TableViewController partsTableController;
 
@@ -15,6 +17,7 @@ public class ProductFormController {
     @FXML
     InventoryFormController productFormController;
 
+    // Set header for product (Add/Modify)
     public void setHeader(String productFormTitle) {
         this.productFormTitle.setText(productFormTitle + " Product");
     }

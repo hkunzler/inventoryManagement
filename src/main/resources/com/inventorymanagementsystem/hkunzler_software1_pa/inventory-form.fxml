@@ -46,13 +46,13 @@
     </Label>
     <TextField fx:id="min" layoutX="420.0" layoutY="295.0" AnchorPane.leftAnchor="420.0"
                AnchorPane.topAnchor="295.0"/>
-    <Button fx:id="savePart" layoutX="358.0" layoutY="410.0" mnemonicParsing="false" onAction="#onSavePart" text="Save"
+    <Button layoutX="358.0" layoutY="410.0" mnemonicParsing="false" onAction="#onSavePart" text="Save"
             AnchorPane.leftAnchor="360.0" AnchorPane.topAnchor="410.0">
         <font>
             <Font name="Arial" size="12.0"/>
         </font>
     </Button>
-    <Button fx:id="cancelPart" layoutX="420.0" layoutY="410.0" mnemonicParsing="false" onAction="#onCancelPart"
+    <Button layoutX="420.0" layoutY="410.0" mnemonicParsing="false" onAction="#onExit"
             text="Cancel" AnchorPane.leftAnchor="425.0" AnchorPane.topAnchor="410.0">
         <font>
             <Font name="Arial" size="12.0"/>

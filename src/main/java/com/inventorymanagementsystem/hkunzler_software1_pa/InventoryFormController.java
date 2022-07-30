@@ -6,13 +6,11 @@ import com.inventorymanagementsystem.hkunzler_software1_pa.models.PartInventory;
 import com.inventorymanagementsystem.hkunzler_software1_pa.models.Product;
 import com.inventorymanagementsystem.hkunzler_software1_pa.utils.uniqueIDGenerator;
 import javafx.application.Platform;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import javafx.util.Pair;
@@ -23,29 +21,130 @@ import java.util.ResourceBundle;
 
 public class InventoryFormController implements Initializable {
     @FXML
-    public TextField name;
+    private TextField name;
     @FXML
-    public TextField price;
+    private TextField price;
     @FXML
-    public TextField stock;
+    private TextField stock;
     @FXML
-    public TextField min;
+    private TextField min;
     @FXML
-    public TextField max;
-
-    public boolean hasErrors = false;
-
-    private Pair<Boolean, String> inHouseOrOutsourced;
+    private TextField max;
     @FXML
     private TextField id;
 
-    private String addEditItem;
+    private boolean hasErrors = false;
+    private boolean isModifyForm = false;
+    private boolean isPartForm = true;
+    private Pair<Boolean, String> inHouseOrOutsourced;
     private Part modify;
-    private String partInventoryForm;
-    private String tableTitle;
-    private ObservableList<Integer> productParts;
 
-    public String getFieldLabel(TextField fieldLabel) {
+    // Action for save button
+    public void onSavePart(ActionEvent actionEvent) {
+
+        // Generates unique id
+        int newId = uniqueIDGenerator.newId();
+
+        // Continue if no errors
+        if (!hasErrors()) {
+            if (isPartForm) {
+
+                // Is modify part form
+                if (isModifyForm) {
+                    PartInventory.getParts().set(PartInventory.getParts().indexOf(modify),
+                            new EachPart(Integer.parseInt(id.getText()), name.getText(),
+                                    Double.parseDouble(price.getText()),
+                                    Integer.parseInt(stock.getText()),
+                                    Integer.parseInt(min.getText()),
+                                    Integer.parseInt(max.getText()), inHouseOrOutsourced));
+
+                    // Is add part form
+                } else {
+                    PartInventory.addPart(new EachPart(newId,
+                            name.getText(),
+                            Double.parseDouble(price.getText()),
+                            Integer.parseInt(stock.getText()),
+                            Integer.parseInt(min.getText()),
+                            Integer.parseInt(max.getText()), inHouseOrOutsourced));
+                }
+
+                // Is product form
+            } else {
+
+                // Is modify product form
+                if (isModifyForm) {
+                    PartInventory.getProducts().set(PartInventory.getProducts().indexOf(modify),
+                            new Product(Integer.parseInt(id.getText()), name.getText(),
+                                    Double.parseDouble(price.getText()),
+                                    Integer.parseInt(stock.getText()),
+                                    Integer.parseInt(min.getText()),
+                                    Integer.parseInt(max.getText()), PartInventory.getProductParts()));
+
+                    // Is add product form
+                } else {
+
+                    // Saving it with Part model
+                    PartInventory.addProduct(new Product(newId,
+                            name.getText(),
+                            Double.parseDouble(price.getText()),
+                            Integer.parseInt(stock.getText()),
+                            Integer.parseInt(min.getText()),
+                            Integer.parseInt(max.getText()), PartInventory.getProductParts()));
+
+                    // Trying to add it with Product model
+                    PartInventory.addProductsTest(new Product(newId,
+                            name.getText(),
+                            Double.parseDouble(price.getText()),
+                            Integer.parseInt(stock.getText()),
+                            Integer.parseInt(min.getText()),
+                            Integer.parseInt(max.getText()), PartInventory.getProductParts()));
+                }
+            }
+
+            // Exits window on save
+            onExit(actionEvent);
+        }
+    }
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        Platform.runLater(() -> {
+
+            // If Part form
+            if (!(PartInventory.getModifiedParts()).isEmpty()) {
+                setModifyFormContent((PartInventory.getModifiedParts()).get(0));
+
+                // If Product form
+            } else if (!(PartInventory.getModifiedProducts()).isEmpty()) {
+                setModifyFormContent((PartInventory.getModifiedProducts()).get(0));
+            }
+
+            // If is Modify form
+            if (isModifyForm) {
+                id.setText(Integer.toString(modify.getId()));
+                name.setText(modify.getName());
+                price.setText(Double.toString(modify.getPrice()));
+                stock.setText(Integer.toString(modify.getStock()));
+                min.setText(Integer.toString(modify.getMin()));
+                max.setText(Integer.toString(modify.getMax()));
+            }
+        });
+    }
+
+
+// ERROR CHECKING
+
+    public boolean hasErrors() {
+        TextField[] allFields = {stock, min, max, price, name};
+        for (TextField allField : allFields) {
+            errorCheck(allField);
+            if (hasErrors) return true;
+        }
+        return false;
+    }
+
+    // Labels of error fields
+    public String getFieldErrorLabel(TextField fieldLabel) {
         if (Objects.equals(fieldLabel, stock)) {
             return "Stock";
         }
@@ -65,16 +164,20 @@ public class InventoryFormController implements Initializable {
     }
 
     public void errorCheck(TextField fieldCheck) {
+
+        // Check if null or empty
         if (fieldCheck == null || fieldCheck.getText().isEmpty()) {
             Alert error = new Alert(Alert.AlertType.ERROR);
             error.setTitle("Empty Field");
             error.setContentText("Complete all fields");
             error.showAndWait();
             hasErrors = true;
-        } else if ((fieldCheck.equals(stock) || fieldCheck.equals(max) || fieldCheck.equals(min)) && !fieldCheck.getText().matches("[0-9]*")) {
+
+            // Check if stock, max, or min fields only contain numbers
+        } else if ((fieldCheck.equals(stock) || fieldCheck.equals(max) || fieldCheck.equals(min)) && !fieldCheck.getText().matches("\\d*")) {
             Alert error = new Alert(Alert.AlertType.ERROR);
             error.setTitle("Number Field");
-            error.setContentText(getFieldLabel(fieldCheck) + " must be an integer");
+            error.setContentText(getFieldErrorLabel(fieldCheck) + " must be an integer");
             error.showAndWait();
             hasErrors = true;
         } else {
@@ -82,101 +185,24 @@ public class InventoryFormController implements Initializable {
         }
     }
 
-    public void setAddEditItem(String addEditItem) {
-        this.addEditItem = addEditItem;
+    public void setModifyFormContent(Part modify) {
+        this.modify = modify;
+    }
+
+    public void setIsModifyForm(boolean isModifyForm) {
+        this.isModifyForm = isModifyForm;
+    }
+
+    public void setIsPartForm(boolean isPartForm) {
+        this.isPartForm = isPartForm;
     }
 
     public void setInHouseOrOutsourced(Pair<Boolean, String> inHouseOrOutsourced) {
         this.inHouseOrOutsourced = inHouseOrOutsourced;
     }
 
-    public void onCancelPart(ActionEvent actionEvent) {
+    @FXML
+    private void onExit(ActionEvent actionEvent) {
         ((Stage) (((Button) actionEvent.getSource()).getScene().getWindow())).close();
-    }
-
-    private void modifiedPart(Part modify) {
-        this.modify = modify;
-    }
-
-    public void setTableTitle(Label tableTitle) {
-        this.tableTitle = tableTitle.getText();
-    }
-
-    public void setProductParts(ObservableList<Integer> productParts) {
-        this.productParts = productParts;
-    }
-
-    public void onSavePart(ActionEvent actionEvent) {
-        int newId = uniqueIDGenerator.newId();
-        errorChecking();
-        if(!hasErrors) {
-            if (Objects.equals(tableTitle, "Parts")) {
-                if ((Objects.equals(partInventoryForm, "Modify"))) {
-                    PartInventory.getParts().set(PartInventory.getParts().indexOf(modify),
-                            new EachPart(Integer.parseInt(id.getText()), name.getText(),
-                                    Double.parseDouble(price.getText()),
-                                    Integer.parseInt(stock.getText()),
-                                    Integer.parseInt(min.getText()),
-                                    Integer.parseInt(max.getText()), inHouseOrOutsourced));
-                } else if (Objects.equals(partInventoryForm, "Add")) {
-                    PartInventory.addPart(new EachPart(newId,
-                            name.getText(),
-                            Double.parseDouble(price.getText()),
-                            Integer.parseInt(stock.getText()),
-                            Integer.parseInt(min.getText()),
-                            Integer.parseInt(max.getText()), inHouseOrOutsourced));
-                }
-            } else if (Objects.equals(tableTitle, "Products")) {
-
-                if ((Objects.equals(partInventoryForm, "Modify"))) {
-                    PartInventory.getProducts().set(PartInventory.getProducts().indexOf(modify),
-                            new Product(Integer.parseInt(id.getText()), name.getText(),
-                                    Double.parseDouble(price.getText()),
-                                    Integer.parseInt(stock.getText()),
-                                    Integer.parseInt(min.getText()),
-                                    Integer.parseInt(max.getText()), productParts));
-                } else if (Objects.equals(partInventoryForm, "Add")) {
-                    PartInventory.addProduct(new Product(newId,
-                            name.getText(),
-                            Double.parseDouble(price.getText()),
-                            Integer.parseInt(stock.getText()),
-                            Integer.parseInt(min.getText()),
-                            Integer.parseInt(max.getText()), productParts));
-                }
-            }
-            onCancelPart(actionEvent);
-        }
-    }
-
-    public void errorChecking() {
-        TextField[] allFields = {stock, min, max, price, name};
-        for (TextField allField : allFields) {
-            errorCheck(allField);
-            if (hasErrors) break;
-        }
-    }
-
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        Platform.runLater(() -> {
-            partInventoryForm = (addEditItem);
-            if ((PartInventory.getModifiedParts()).toArray().length >= 1 && Objects.equals(tableTitle, "Parts")) {
-                modifiedPart((PartInventory.getModifiedParts()).get(0));
-            } else if ((PartInventory.getModifiedProducts()).toArray().length >= 1 && Objects.equals(tableTitle, "Products")) {
-                modifiedPart((PartInventory.getModifiedProducts()).get(0));
-            }
-            if ((Objects.equals(partInventoryForm, "Modify")) && (modify != null)) {
-                id.setText(Integer.toString(modify.getId()));
-                name.setText(modify.getName());
-                price.setText(Double.toString(modify.getPrice()));
-                stock.setText(Integer.toString(modify.getStock()));
-                min.setText(Integer.toString(modify.getMin()));
-                max.setText(Integer.toString(modify.getMax()));
-            }
-            Platform.runLater(() -> {
-                PartInventory.getModifiedParts().clear();
-                PartInventory.getModifiedProducts().clear();
-            });
-        });
     }
 }

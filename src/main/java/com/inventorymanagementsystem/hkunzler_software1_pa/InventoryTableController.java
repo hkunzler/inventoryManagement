@@ -4,6 +4,7 @@ import com.inventorymanagementsystem.hkunzler_software1_pa.models.Part;
 import com.inventorymanagementsystem.hkunzler_software1_pa.models.PartInventory;
 import com.inventorymanagementsystem.hkunzler_software1_pa.models.Product;
 import javafx.application.Platform;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -13,12 +14,12 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class InventoryTableController implements Initializable {
-
     @FXML
     private Label tableTitle;
     @FXML
@@ -31,121 +32,193 @@ public class InventoryTableController implements Initializable {
     private TableColumn<Part, Integer> itemID;
     @FXML
     private TableColumn<Part, String> itemName;
-    @FXML
-    private Button onAdd;
-    @FXML
-    private Button onModify;
-    private String formType;
+    private String formLoader;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         Platform.runLater(() -> {
-            if (partTable != null && Objects.equals(tableTitle.getText(), "Parts")) {
+
+            // Sets part table values
+            if (getIsPartForm(tableTitle)) {
                 partTable.setItems(PartInventory.getParts());
             }
-            if (partTable != null && Objects.equals(tableTitle.getText(), "Products")) {
+
+            // Sets product table value
+            else {
                 partTable.setItems(PartInventory.getProducts());
             }
         });
 
     }
 
-    public void setTableTitle(String tableTitle) {
-        this.tableTitle.setText(tableTitle);
-    }
 
-    public void setItemID(String itemID) {
-        this.itemID.setText(itemID);
-    }
+    // Triggered by the button for adding/modifying both part/product forms
+    public void onOpenForm(ActionEvent actionEvent) throws IOException {
 
-    public void setItemName(String itemName) {
-        this.itemName.setText(itemName);
-    }
-
-    public void setFormType(String formType) {
-        this.formType = formType;
-    }
-
-    public void onOpenForm(ActionEvent actionEvent) {
+        // Uses button text to determine Modify form vs Add form
         String form = ((Button) actionEvent.getSource()).getText();
-        if(Objects.equals(partTable.getSelectionModel().getSelectedItem(), null) && Objects.equals(form, "Modify")){
+        boolean isModifyingForm = Objects.equals(form, "Modify");
+
+        // Error alert shown if no item selected to modify
+        if (Objects.equals(getSelectedItem(partTable), null) && isModifyingForm) {
             Alert error = new Alert(Alert.AlertType.ERROR);
             error.setTitle("Modify");
             error.setContentText("Must select item to modify");
             error.showAndWait();
-        }else try {
+
+            // Loads the form
+        } else {
             Stage stage = new Stage();
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(formType));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(formLoader));
             Parent root = (fxmlLoader.load());
-            if (Objects.equals(tableTitle.getText(), "Products")) {
+
+            // Product form
+            if (!getIsPartForm(tableTitle)) {
+
+                // Gets controller for product form
                 ProductFormController controller = fxmlLoader.getController();
-                if ( Objects.equals(form, "Modify")) {
-                    onModify();
-                    Part temp = PartInventory.getModifiedProducts().get(0);
-                    if (temp instanceof Product product) {
-                        for (int i = 0; i < PartInventory.getParts().toArray().length; i++) {
-                            controller.addedPartsController.partTable.getItems().add(PartInventory.getParts().get(i));
+
+                // Modify Product form
+                if (isModifyingForm) {
+
+                    // In progress
+                    if (PartInventory.getProductsTest().size() > 0) {
+                        for (Product part1 : PartInventory.getProductsTest()
+                        ) {
+//                            controller.addedPartsController.partTable.setItems(PartInventory.getProductPartsTest(part1));
+                            if (part1 != null) {
+                                ObservableList<Part> temp = PartInventory.getProductPartsTest(part1);
+                                if (temp != null) {
+                                    PartInventory.getProductPartsTest(part1);
+                                    PartInventory.addProductPart(getSelectedItem(controller.addedPartsController.partTable));
+                                }
+                            }
                         }
                     }
+
+                    // Adds product item to separate list for modifying
+                    onModify();
                 }
+
+                // Sets header to form selected (Add / Modify)
                 controller.setHeader(form);
 
-                PartInventory.getProductParts().clear();
+                // Sets items in the Products Selected Items table
                 controller.addedPartsController.partTable.setItems(PartInventory.getProductParts());
 
+                // Sets items in the Products Inventory table
                 controller.partsTableController.partTable.setItems(PartInventory.getParts());
+
+                // Sets button text for removing selected item
                 controller.addedPartsController.addProductPartButton.setText("Remove Associate Part");
 
-                controller.productFormController.setAddEditItem(form);
-                controller.productFormController.setTableTitle(tableTitle);
+                // Lets the InventoryFormController know to edit the product form
+                controller.productFormController.setIsPartForm(getIsPartForm(tableTitle));
 
+                // Lets the InventoryFormController know if in Modify form
+                controller.productFormController.setIsModifyForm(isModifyingForm);
+
+                // Part form
             } else {
+
+                // Gets controller for part form
                 PartFormController controller = fxmlLoader.getController();
-                controller.setHeader(form);
-                if(Objects.equals(partTable.getSelectionModel().getSelectedItem(), null) && Objects.equals(form, "Modify")){
+
+                // Shows alert if no item selected to modify
+                if (Objects.equals(getSelectedItem(partTable), null) && isModifyingForm) {
                     Alert error = new Alert(Alert.AlertType.ERROR);
                     error.setTitle("Modify Part");
                     error.setContentText("Must select part to modify");
                     error.showAndWait();
                     onCancelPart(actionEvent);
-                }
-                else if (partTable.getSelectionModel().getSelectedItem() != null && Objects.equals(form, "Modify")) {
+
+                    // Gets Modify Part screen
+                } else if (getSelectedItem(partTable) != null && isModifyingForm) {
+
+                    // Lets the InventoryFormController know in Modify form
+                    controller.partFormController.setIsModifyForm(true);
+
+                    // Adds part item to separate list for modifying
                     onModify();
                 }
-                controller.partFormController.setAddEditItem(form);
-                controller.partFormController.setTableTitle(tableTitle);
+
+                // Sets header to form selected (Add / Modify)
+                controller.setHeader(form);
+
+                // Lets the InventoryFormController know to edit the part form
+                controller.partFormController.setIsPartForm(getIsPartForm(tableTitle));
             }
+
+            // Shows scene
             stage.setScene(new Scene(root));
             stage.show();
+
+            // Sets window title to form selected name
             stage.setTitle(form);
-        } catch (Exception e) {
-            e.printStackTrace();
         }
     }
 
-    public void onAddProductPart() {
-        Part productPart = partTable.getSelectionModel().getSelectedItem();
-        PartInventory.addProductPart(productPart);
-    }
 
+    //Modify table item
     public void onModify() {
-        Part modifyItem = partTable.getSelectionModel().getSelectedItem();
-        if (Objects.equals(tableTitle.getText(), "Parts")) PartInventory.addModifiedPart(modifyItem);
-        else if (Objects.equals(tableTitle.getText(), "Products")) PartInventory.addModifiedProducts(modifyItem);
 
+        // Adds Part item to separate list to modify
+        if (getIsPartForm(tableTitle)) PartInventory.addModifiedPart(getSelectedItem(partTable));
+
+            // Adds Product item to separate list to modify
+        else PartInventory.addModifiedProducts(getSelectedItem(partTable));
     }
 
+    // Removes selected item from table
     public void onDelete() {
-        Part deleteItem = partTable.getSelectionModel().getSelectedItem();
-        if(Objects.equals(deleteItem, null)){
+
+        // Error Alert shown if no item selected to delete
+        if (Objects.equals(getSelectedItem(partTable), null)) {
             Alert error = new Alert(Alert.AlertType.ERROR);
             error.setTitle("Delete");
             error.setContentText("Must select item to delete");
             error.showAndWait();
-        }else if (Objects.equals(tableTitle.getText(), "Parts")) PartInventory.deletePart(deleteItem);
-        else if (Objects.equals(tableTitle.getText(), "Products")) PartInventory.deleteProduct(deleteItem);
+        }
+
+        // Removes item from part table
+        else if (getIsPartForm(tableTitle)) PartInventory.deletePart(getSelectedItem(partTable));
+
+            // Removes item from product table
+        else PartInventory.deleteProduct(getSelectedItem(partTable));
     }
-    public void onCancelPart(ActionEvent actionEvent) {
+
+    // Returns selected table item
+    private Part getSelectedItem(TableView<Part> selectedItem) {
+        return (selectedItem).getSelectionModel().getSelectedItem();
+    }
+
+    // Returns true if == "Parts"
+    private boolean getIsPartForm(Label formTitle) {
+        return Objects.equals(((formTitle).getText()), "Parts");
+    }
+
+    // Used by InventoryManagementController to set title of Part/Product table
+    public void setTableTitle(String tableTitle) {
+        this.tableTitle.setText(tableTitle);
+    }
+
+    // Used by InventoryManagementController to set ID column name of Part/Product table
+    public void setItemID(String itemID) {
+        this.itemID.setText(itemID);
+    }
+
+    // Used by InventoryManagementController to set item name column of Part/Product table
+    public void setItemName(String itemName) {
+        this.itemName.setText(itemName);
+    }
+
+    // Used by InventoryManagementController to set FXML file for Part/Product table
+    public void setFormLoader(String formLoader) {
+        this.formLoader = formLoader;
+    }
+
+    // Closes form
+    private void onCancelPart(ActionEvent actionEvent) {
         ((Stage) (((Button) actionEvent.getSource()).getScene().getWindow())).close();
     }
 }
