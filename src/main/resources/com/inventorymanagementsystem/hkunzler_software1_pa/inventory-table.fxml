@@ -38,7 +38,7 @@
                 </TableColumn>
             </columns>
         </TableView>
-        <TextField layoutX="370.0" layoutY="11.0" promptText="Search by ID or Name" AnchorPane.topAnchor="15.0"/>
+        <TextField fx:id="searchField" layoutX="370.0" layoutY="11.0" promptText="Search by ID or Name" AnchorPane.topAnchor="15.0"/>
         <Button layoutX="343.0" layoutY="211.0" mnemonicParsing="false" onAction="#onOpenForm" text="Add"
                 textAlignment="CENTER" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="170.0">
             <font>

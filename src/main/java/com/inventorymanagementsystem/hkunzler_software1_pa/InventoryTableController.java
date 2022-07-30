@@ -3,6 +3,7 @@ package com.inventorymanagementsystem.hkunzler_software1_pa;
 import com.inventorymanagementsystem.hkunzler_software1_pa.models.Part;
 import com.inventorymanagementsystem.hkunzler_software1_pa.models.PartInventory;
 import com.inventorymanagementsystem.hkunzler_software1_pa.models.Product;
+import com.inventorymanagementsystem.hkunzler_software1_pa.utils.searchResults;
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -20,6 +21,7 @@ import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class InventoryTableController implements Initializable {
+    public TextField searchField;
     @FXML
     private Label tableTitle;
     @FXML
@@ -40,12 +42,16 @@ public class InventoryTableController implements Initializable {
 
             // Sets part table values
             if (getIsPartForm(tableTitle)) {
-                partTable.setItems(PartInventory.getParts());
+
+                // Uses searchResults.java to filter items if needed
+                partTable.setItems(searchResults.getTableItems(PartInventory.getParts(), searchField, partTable));
             }
 
             // Sets product table value
             else {
-                partTable.setItems(PartInventory.getProducts());
+
+                // Uses searchResults.java to filter items if needed
+                partTable.setItems(searchResults.getTableItems(PartInventory.getProducts(), searchField, partTable));
             }
         });
 
@@ -65,7 +71,7 @@ public class InventoryTableController implements Initializable {
             error.setTitle("Modify");
             error.setContentText("Must select item to modify");
             error.showAndWait();
-
+            System.out.print(" test " + searchField);
             // Loads the form
         } else {
             Stage stage = new Stage();
@@ -107,7 +113,8 @@ public class InventoryTableController implements Initializable {
                 controller.addedPartsController.partTable.setItems(PartInventory.getProductParts());
 
                 // Sets items in the Products Inventory table
-                controller.partsTableController.partTable.setItems(PartInventory.getParts());
+                // Uses searchResults.java to filter items if needed
+                controller.partsTableController.partTable.setItems(searchResults.getTableItems(PartInventory.getParts(), controller.searchField, controller.partsTableController.partTable));
 
                 // Sets button text for removing selected item
                 controller.addedPartsController.addProductPartButton.setText("Remove Associate Part");
@@ -157,7 +164,6 @@ public class InventoryTableController implements Initializable {
             stage.setTitle(form);
         }
     }
-
 
     //Modify table item
     public void onModify() {
