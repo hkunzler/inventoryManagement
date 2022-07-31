@@ -16,6 +16,7 @@ import javafx.stage.Stage;
 import javafx.util.Pair;
 
 import java.net.URL;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class InventoryFormController implements Initializable {
@@ -31,18 +32,13 @@ public class InventoryFormController implements Initializable {
     private TextField max;
     @FXML
     private TextField id;
-
     private boolean isModifyForm = false;
     private boolean isPartForm = true;
     private Pair<Boolean, String> inHouseOrOutsourced;
     private Part modify;
 
-
     // Action for save button
     public void onSavePart(ActionEvent actionEvent) {
-
-        // Generates unique id
-        int newId = uniqueIDGenerator.newId();
 
         // Continue if no errors
         if (!errorHandling.hasErrors(stock, min, max, price, name)) {
@@ -51,20 +47,11 @@ public class InventoryFormController implements Initializable {
                 // Is modify part form
                 if (isModifyForm) {
                     PartInventory.getParts().set(PartInventory.getParts().indexOf(modify),
-                            new EachPart(Integer.parseInt(id.getText()), name.getText(),
-                                    Double.parseDouble(price.getText()),
-                                    Integer.parseInt(stock.getText()),
-                                    Integer.parseInt(min.getText()),
-                                    Integer.parseInt(max.getText()), inHouseOrOutsourced));
+                            formValues("part", "modify"));
 
                     // Is add part form
                 } else {
-                    PartInventory.addPart(new EachPart(newId,
-                            name.getText(),
-                            Double.parseDouble(price.getText()),
-                            Integer.parseInt(stock.getText()),
-                            Integer.parseInt(min.getText()),
-                            Integer.parseInt(max.getText()), inHouseOrOutsourced));
+                    PartInventory.addPart(formValues("part", "add"));
                 }
 
                 // Is product form
@@ -73,30 +60,16 @@ public class InventoryFormController implements Initializable {
                 // Is modify product form
                 if (isModifyForm) {
                     PartInventory.getProducts().set(PartInventory.getProducts().indexOf(modify),
-                            new Product(Integer.parseInt(id.getText()), name.getText(),
-                                    Double.parseDouble(price.getText()),
-                                    Integer.parseInt(stock.getText()),
-                                    Integer.parseInt(min.getText()),
-                                    Integer.parseInt(max.getText()), PartInventory.getProductParts()));
+                            formValues("product", "modify"));
 
                     // Is add product form
                 } else {
 
                     // Saving it with Part model
-                    PartInventory.addProduct(new Product(newId,
-                            name.getText(),
-                            Double.parseDouble(price.getText()),
-                            Integer.parseInt(stock.getText()),
-                            Integer.parseInt(min.getText()),
-                            Integer.parseInt(max.getText()), PartInventory.getProductParts()));
+                    PartInventory.addProduct(formValues("product", "add"));
 
                     // Trying to add it with Product model
-                    PartInventory.addProductsTest(new Product(newId,
-                            name.getText(),
-                            Double.parseDouble(price.getText()),
-                            Integer.parseInt(stock.getText()),
-                            Integer.parseInt(min.getText()),
-                            Integer.parseInt(max.getText()), PartInventory.getProductParts()));
+//                    PartInventory.addProductsTest(formValues("product", "add"));
                 }
             }
 
@@ -130,8 +103,21 @@ public class InventoryFormController implements Initializable {
         });
     }
 
+    public Part formValues(String form, String modify) {
+        // Generates unique id or uses stored id
+        int formId = Objects.equals(modify, "modify") ? Integer.parseInt(id.getText()) : uniqueIDGenerator.newId();
 
-// ERROR CHECKING
+        // Checks if adding/modifying product/part
+        return Objects.equals(form, "product") ? new Product(formId, name.getText(),
+                Double.parseDouble(price.getText()),
+                Integer.parseInt(stock.getText()),
+                Integer.parseInt(min.getText()),
+                Integer.parseInt(max.getText()), PartInventory.getProductParts()) : new EachPart(formId, name.getText(),
+                Double.parseDouble(price.getText()),
+                Integer.parseInt(stock.getText()),
+                Integer.parseInt(min.getText()),
+                Integer.parseInt(max.getText()), inHouseOrOutsourced);
+    }
 
     public void setModifyFormContent(Part modify) {
         this.modify = modify;

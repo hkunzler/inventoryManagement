@@ -1,5 +1,6 @@
 package com.inventorymanagementsystem.hkunzler_software1_pa;
 
+import com.inventorymanagementsystem.hkunzler_software1_pa.utils.errorHandling;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -32,10 +33,7 @@ public class InventoryManagementController implements Initializable {
 
     // Exit confirmation - will exit project
     public void inventoryManagementExitButton() {
-        Alert exitAlert = new Alert(Alert.AlertType.CONFIRMATION);
-        exitAlert.setTitle("Exit Warning");
-        exitAlert.setContentText("Are you sure you want to exit?");
-        exitAlert.showAndWait();
+        errorHandling.exitAlert();
 
         Platform.exit();
     }

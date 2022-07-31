@@ -3,11 +3,11 @@ package com.inventorymanagementsystem.hkunzler_software1_pa.utils;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
 
-import java.util.Arrays;
 import java.util.Objects;
 
 public class errorHandling {
     private static boolean hasErrors = false;
+
     public static boolean hasErrors(TextField stock, TextField min, TextField max, TextField price, TextField name) {
         final TextField[] allFields = {stock, min, max, price, name};
         for (TextField allField : allFields) {
@@ -45,5 +45,20 @@ public class errorHandling {
         } else {
             hasErrors = false;
         }
+    }
+
+    // ALERTS
+    public static void selectItemAlert(String itemAction) {
+        Alert error = new Alert(Alert.AlertType.ERROR);
+        error.setTitle(formatting.capitalizeWord(itemAction));
+        error.setContentText("Must select item to " + itemAction);
+        error.showAndWait();
+    }
+
+    public static void exitAlert() {
+        Alert exitAlert = new Alert(Alert.AlertType.CONFIRMATION);
+        exitAlert.setTitle("Exit Warning");
+        exitAlert.setContentText("Are you sure you want to exit?");
+        exitAlert.showAndWait();
     }
 }

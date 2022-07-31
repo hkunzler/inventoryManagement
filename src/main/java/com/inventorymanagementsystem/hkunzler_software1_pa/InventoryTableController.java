@@ -3,6 +3,8 @@ package com.inventorymanagementsystem.hkunzler_software1_pa;
 import com.inventorymanagementsystem.hkunzler_software1_pa.models.Part;
 import com.inventorymanagementsystem.hkunzler_software1_pa.models.PartInventory;
 import com.inventorymanagementsystem.hkunzler_software1_pa.models.Product;
+import com.inventorymanagementsystem.hkunzler_software1_pa.utils.buttons;
+import com.inventorymanagementsystem.hkunzler_software1_pa.utils.errorHandling;
 import com.inventorymanagementsystem.hkunzler_software1_pa.utils.searchResults;
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
@@ -67,11 +69,9 @@ public class InventoryTableController implements Initializable {
 
         // Error alert shown if no item selected to modify
         if (Objects.equals(getSelectedItem(partTable), null) && isModifyingForm) {
-            Alert error = new Alert(Alert.AlertType.ERROR);
-            error.setTitle("Modify");
-            error.setContentText("Must select item to modify");
-            error.showAndWait();
-            System.out.print(" test " + searchField);
+            errorHandling.selectItemAlert("modify");
+
+
             // Loads the form
         } else {
             Stage stage = new Stage();
@@ -133,10 +133,9 @@ public class InventoryTableController implements Initializable {
 
                 // Shows alert if no item selected to modify
                 if (Objects.equals(getSelectedItem(partTable), null) && isModifyingForm) {
-                    Alert error = new Alert(Alert.AlertType.ERROR);
-                    error.setTitle("Modify Part");
-                    error.setContentText("Must select part to modify");
-                    error.showAndWait();
+                    errorHandling.selectItemAlert("modify");
+
+                    // Closes form
                     onCancelPart(actionEvent);
 
                     // Gets Modify Part screen
@@ -180,10 +179,7 @@ public class InventoryTableController implements Initializable {
 
         // Error Alert shown if no item selected to delete
         if (Objects.equals(getSelectedItem(partTable), null)) {
-            Alert error = new Alert(Alert.AlertType.ERROR);
-            error.setTitle("Delete");
-            error.setContentText("Must select item to delete");
-            error.showAndWait();
+            errorHandling.selectItemAlert("delete");
         }
 
         // Removes item from part table
@@ -225,6 +221,6 @@ public class InventoryTableController implements Initializable {
 
     // Closes form
     private void onCancelPart(ActionEvent actionEvent) {
-        ((Stage) (((Button) actionEvent.getSource()).getScene().getWindow())).close();
+        buttons.onExit(actionEvent);
     }
 }

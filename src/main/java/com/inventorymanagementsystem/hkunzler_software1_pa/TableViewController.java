@@ -2,6 +2,7 @@ package com.inventorymanagementsystem.hkunzler_software1_pa;
 
 import com.inventorymanagementsystem.hkunzler_software1_pa.models.Part;
 import com.inventorymanagementsystem.hkunzler_software1_pa.models.PartInventory;
+import com.inventorymanagementsystem.hkunzler_software1_pa.utils.errorHandling;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -34,10 +35,7 @@ public class TableViewController {
 
             // Error alert if no item is selected to add
             if (Objects.equals(productPart, null)) {
-                Alert error = new Alert(Alert.AlertType.ERROR);
-                error.setTitle("Add");
-                error.setContentText("Must select item to add");
-                error.showAndWait();
+                errorHandling.selectItemAlert("add");
 
                 // Add product to list
             } else {
@@ -50,10 +48,7 @@ public class TableViewController {
 
             // Error alert if no item is selected to remove
             if (Objects.equals(productPart, null)) {
-                Alert error = new Alert(Alert.AlertType.ERROR);
-                error.setTitle("Delete");
-                error.setContentText("Must select item to delete");
-                error.showAndWait();
+                errorHandling.selectItemAlert("delete");
 
                 // Remove product from list
             } else {

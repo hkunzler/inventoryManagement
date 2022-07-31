@@ -19,7 +19,7 @@ public class searchResults {
             String search = searchField.getText();
             if (search == null || search.length() == 0) searchResult.setPredicate(item -> true);
             else {
-                searchResult.setPredicate(item -> item.getName().contains(search));
+                searchResult.setPredicate(item -> item.getName().contains(search) || Integer.toString(item.getId()).contains(search));
                 if (searchResult.isEmpty()) {
                     final Label placeholderLabel = new Label("No matching results");
                     placeholderLabel.setTextFill(Color.RED);
