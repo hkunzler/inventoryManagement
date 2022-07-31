@@ -4,19 +4,18 @@ import com.inventorymanagementsystem.hkunzler_software1_pa.models.EachPart;
 import com.inventorymanagementsystem.hkunzler_software1_pa.models.Part;
 import com.inventorymanagementsystem.hkunzler_software1_pa.models.PartInventory;
 import com.inventorymanagementsystem.hkunzler_software1_pa.models.Product;
+import com.inventorymanagementsystem.hkunzler_software1_pa.utils.errorHandling;
 import com.inventorymanagementsystem.hkunzler_software1_pa.utils.uniqueIDGenerator;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import javafx.util.Pair;
 
 import java.net.URL;
-import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class InventoryFormController implements Initializable {
@@ -33,11 +32,11 @@ public class InventoryFormController implements Initializable {
     @FXML
     private TextField id;
 
-    private boolean hasErrors = false;
     private boolean isModifyForm = false;
     private boolean isPartForm = true;
     private Pair<Boolean, String> inHouseOrOutsourced;
     private Part modify;
+
 
     // Action for save button
     public void onSavePart(ActionEvent actionEvent) {
@@ -46,7 +45,7 @@ public class InventoryFormController implements Initializable {
         int newId = uniqueIDGenerator.newId();
 
         // Continue if no errors
-        if (!hasErrors()) {
+        if (!errorHandling.hasErrors(stock, min, max, price, name)) {
             if (isPartForm) {
 
                 // Is modify part form
@@ -133,57 +132,6 @@ public class InventoryFormController implements Initializable {
 
 
 // ERROR CHECKING
-
-    public boolean hasErrors() {
-        TextField[] allFields = {stock, min, max, price, name};
-        for (TextField allField : allFields) {
-            errorCheck(allField);
-            if (hasErrors) return true;
-        }
-        return false;
-    }
-
-    // Labels of error fields
-    public String getFieldErrorLabel(TextField fieldLabel) {
-        if (Objects.equals(fieldLabel, stock)) {
-            return "Stock";
-        }
-        if (Objects.equals(fieldLabel, min)) {
-            return "Min";
-        }
-        if (Objects.equals(fieldLabel, max)) {
-            return "Max";
-        }
-        if (Objects.equals(fieldLabel, price)) {
-            return "Price";
-        }
-        if (Objects.equals(fieldLabel, name)) {
-            return "Label";
-        }
-        return "Field";
-    }
-
-    public void errorCheck(TextField fieldCheck) {
-
-        // Check if null or empty
-        if (fieldCheck == null || fieldCheck.getText().isEmpty()) {
-            Alert error = new Alert(Alert.AlertType.ERROR);
-            error.setTitle("Empty Field");
-            error.setContentText("Complete all fields");
-            error.showAndWait();
-            hasErrors = true;
-
-            // Check if stock, max, or min fields only contain numbers
-        } else if ((fieldCheck.equals(stock) || fieldCheck.equals(max) || fieldCheck.equals(min)) && !fieldCheck.getText().matches("\\d*")) {
-            Alert error = new Alert(Alert.AlertType.ERROR);
-            error.setTitle("Number Field");
-            error.setContentText(getFieldErrorLabel(fieldCheck) + " must be an integer");
-            error.showAndWait();
-            hasErrors = true;
-        } else {
-            hasErrors = false;
-        }
-    }
 
     public void setModifyFormContent(Part modify) {
         this.modify = modify;
