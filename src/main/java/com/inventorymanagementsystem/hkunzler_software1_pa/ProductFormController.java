@@ -1,5 +1,6 @@
 package com.inventorymanagementsystem.hkunzler_software1_pa;
 
+import com.inventorymanagementsystem.hkunzler_software1_pa.models.PartInventory;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -22,5 +23,8 @@ public class ProductFormController {
     // Set header for product (Add/Modify)
     public void setHeader(String productFormTitle) {
         this.productFormTitle.setText(productFormTitle + " Product");
+    }
+    public void initialize() {
+                           PartInventory.getProductParts().clear();
     }
 }

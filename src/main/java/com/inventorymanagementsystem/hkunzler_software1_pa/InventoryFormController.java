@@ -37,6 +37,8 @@ public class InventoryFormController implements Initializable {
     private Pair<Boolean, String> inHouseOrOutsourced;
     private Part modify;
 
+    int newId = uniqueIDGenerator.newId();
+
     // Action for save button
     public void onSavePart(ActionEvent actionEvent) {
 
@@ -59,8 +61,8 @@ public class InventoryFormController implements Initializable {
 
                 // Is modify product form
                 if (isModifyForm) {
-                    PartInventory.getProducts().set(PartInventory.getProducts().indexOf(modify),
-                            formValues("product", "modify"));
+//                    PartInventory.getProducts().set(PartInventory.getProducts().indexOf(modify),
+//                            formValues("product", "modify"));
 
                     // Is add product form
                 } else {
@@ -69,7 +71,11 @@ public class InventoryFormController implements Initializable {
                     PartInventory.addProduct(formValues("product", "add"));
 
                     // Trying to add it with Product model
-//                    PartInventory.addProductsTest(formValues("product", "add"));
+                    PartInventory.addProductsTest(new Product(newId, name.getText(),
+                            Double.parseDouble(price.getText()),
+                            Integer.parseInt(stock.getText()),
+                            Integer.parseInt(min.getText()),
+                            Integer.parseInt(max.getText()), PartInventory.getProductParts()));
                 }
             }
 
@@ -105,7 +111,7 @@ public class InventoryFormController implements Initializable {
 
     public Part formValues(String form, String modify) {
         // Generates unique id or uses stored id
-        int formId = Objects.equals(modify, "modify") ? Integer.parseInt(id.getText()) : uniqueIDGenerator.newId();
+        int formId = Objects.equals(modify, "modify") ? Integer.parseInt(id.getText()) : newId;
 
         // Checks if adding/modifying product/part
         return Objects.equals(form, "product") ? new Product(formId, name.getText(),

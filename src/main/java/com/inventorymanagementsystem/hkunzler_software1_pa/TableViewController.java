@@ -4,7 +4,6 @@ import com.inventorymanagementsystem.hkunzler_software1_pa.models.Part;
 import com.inventorymanagementsystem.hkunzler_software1_pa.models.PartInventory;
 import com.inventorymanagementsystem.hkunzler_software1_pa.utils.errorHandling;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -24,7 +23,7 @@ public class TableViewController {
     @FXML
     private TableColumn<Part, String> itemName;
 
-    // In progress
+    // TODO: In progress
     public void addProductPart() {
 
         // Get selected item from table

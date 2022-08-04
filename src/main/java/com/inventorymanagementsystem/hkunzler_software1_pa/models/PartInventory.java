@@ -38,11 +38,6 @@ public class PartInventory {
         return productsTest;
     }
 
-    public static ObservableList<Part> getProductPartsTest(Product product) {
-        return productsTest.get(productsTest.indexOf(product)).getProductPartsTest2();
-    }
-
-
     // Adding
     public static void addPart(Part part) {
         parts.add(part);
@@ -67,11 +62,6 @@ public class PartInventory {
     public static void addProductsTest(Product product) {
         productsTest.add(product);
     }
-
-    public static void addProductsPartsTest(Product product, ObservableList<Part> part) {
-        productsTest.get(productsTest.indexOf(product)).getProductPartsTest2().addAll(part);
-    }
-
 
     // Deleting
     public static void deletePart(Part part) {

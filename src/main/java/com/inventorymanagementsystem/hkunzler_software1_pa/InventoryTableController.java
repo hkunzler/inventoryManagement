@@ -7,7 +7,9 @@ import com.inventorymanagementsystem.hkunzler_software1_pa.utils.buttons;
 import com.inventorymanagementsystem.hkunzler_software1_pa.utils.errorHandling;
 import com.inventorymanagementsystem.hkunzler_software1_pa.utils.searchResults;
 import javafx.application.Platform;
+import javafx.beans.InvalidationListener;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -87,30 +89,24 @@ public class InventoryTableController implements Initializable {
                 // Modify Product form
                 if (isModifyingForm) {
 
-                    // In progress
-                    if (PartInventory.getProductsTest().size() > 0) {
-                        for (Product part1 : PartInventory.getProductsTest()
-                        ) {
-//                            controller.addedPartsController.partTable.setItems(PartInventory.getProductPartsTest(part1));
-                            if (part1 != null) {
-                                ObservableList<Part> temp = PartInventory.getProductPartsTest(part1);
-                                if (temp != null) {
-                                    PartInventory.getProductPartsTest(part1);
-                                    PartInventory.addProductPart(getSelectedItem(controller.addedPartsController.partTable));
-                                }
-                            }
-                        }
-                    }
+                    // TODO: In progress
+                    controller.addedPartsController.partTable.getItems().addAll(testing().get(0).getProductParts());
+                  controller.addedPartsController.partTable.setItems(testing().get(0).getProductParts());
+
 
                     // Adds product item to separate list for modifying
                     onModify();
+                } else {
+                    // Sets items in the Products Selected Items table
+                    controller.addedPartsController.partTable.setItems(PartInventory.getProductParts());
+
                 }
 
                 // Sets header to form selected (Add / Modify)
                 controller.setHeader(form);
 
-                // Sets items in the Products Selected Items table
-                controller.addedPartsController.partTable.setItems(PartInventory.getProductParts());
+
+
 
                 // Sets items in the Products Inventory table
                 // Uses searchResults.java to filter items if needed
@@ -162,6 +158,23 @@ public class InventoryTableController implements Initializable {
             // Sets window title to form selected name
             stage.setTitle(form);
         }
+    }
+
+    // TODO: In progress
+    public ObservableList<Product> testing() {
+        FilteredList<Product> tempList = new FilteredList<>(PartInventory.getProductsTest(), item -> true);
+        tempList.addListener((InvalidationListener) obs -> {
+            Part search = getSelectedItem(partTable);
+                        if (search == null) tempList.setPredicate(item -> true);
+
+            tempList.setPredicate(item -> {
+                assert search != null;
+                return item.getId() == search.getId();
+            });
+
+        });
+//        tempList.forEach(product -> product.getId());
+        return tempList;
     }
 
     //Modify table item
